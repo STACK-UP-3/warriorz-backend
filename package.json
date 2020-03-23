@@ -1,0 +1,31 @@
+{
+  "name": "warriorz-backend",
+  "version": "1.0.0",
+  "description": "The back end of the worriorz",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/STACK-UP-3/warriorz-backend.git"
+  },
+  "author": "Warriorz Team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/STACK-UP-3/warriorz-backend/issues"
+  },
+  "homepage": "https://github.com/STACK-UP-3/warriorz-backend#readme",
+  "dependencies": {
+    "babel-eslint": "^10.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^2.0.1"
+  }
+}
