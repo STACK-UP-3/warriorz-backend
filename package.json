@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/STACK-UP-3/warriorz-backend#readme",
   "dependencies": {
-    "babel-eslint": "^10.1.0"
+    "babel-eslint": "^10.1.0",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.4.2"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
