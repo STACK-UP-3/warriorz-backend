@@ -1,10 +1,11 @@
 {
   "name": "warriorz-backend",
   "version": "1.0.0",
-  "description": "The back end of the worriorz",
+  "description": "The back end of the warriorz",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nyc --reporter=html --reporter=text mocha --require @babel/register --timeout 5000 ./server/tests/*.js --exit",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -17,9 +18,22 @@
   },
   "homepage": "https://github.com/STACK-UP-3/warriorz-backend#readme",
   "dependencies": {
-    "babel-eslint": "^10.1.0"
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/node": "^7.8.4",
+    "@babel/plugin-transform-regenerator": "^7.8.3",
+    "@babel/polyfill": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/register": "^7.9.0",
+    "babel-eslint": "^10.0.3",
+    "babel-node": "0.0.1-security",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^7.1.1",
+    "nyc": "^15.0.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.9.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-prettier": "^6.10.1",
