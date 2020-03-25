@@ -2,9 +2,9 @@
   "name": "warriorz-backend",
   "version": "1.0.0",
   "description": "The back end of the worriorz",
-  "main": "index.js",
+  "main": "server/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "babel-node -- server/index.js"
   },
   "repository": {
     "type": "git",
@@ -17,15 +17,26 @@
   },
   "homepage": "https://github.com/STACK-UP-3/warriorz-backend#readme",
   "dependencies": {
-    "babel-eslint": "^10.1.0"
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/node": "^7.8.7",
+    "@babel/polyfill": "^7.8.7",
+    "@babel/preset-env": "^7.9.0",
+    "babel-eslint": "^10.1.0",
+    "babel-register": "^6.26.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "swagger-jsdoc": "^4.0.0",
+    "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
+    "babel-install": "^2.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.2",
-    "prettier": "^2.0.1"
+    "prettier": "^2.0.2"
   }
 }

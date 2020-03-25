@@ -21,6 +21,15 @@
     "consistent-return": "warn",
     "no-param-reassign": "warn",
     "comma-dangle": "warn",
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "trailingComma": "all",
+        "bracketSpacing": true,
+        "endOfLine": "auto"
+      }
+    ],
     "curly": ["error", "multi-line"],
     "import/no-unresolved": [2, { "commonjs": true }],
     "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
@@ -44,7 +53,6 @@
       }
     ],
     "import/no-cycle": 0,
-    "prettier/prettier": "error",
     "no-unused-vars": "warn",
     "no-console": "off",
     "prefer-destructuring": "warn",
