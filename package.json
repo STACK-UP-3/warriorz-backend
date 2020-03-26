@@ -34,19 +34,23 @@
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.5",
     "swagger-jsdoc": "^4.0.0",
-    "swagger-ui-express": "^4.1.4"
+    "swagger-ui-express": "^4.1.4",
+    "nodemon": "^2.0.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^7.1.1",
     "chai-http": "4.3.0",
     "babel-install": "^2.1.0",
+    "coveralls": "^3.0.11",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "mocha-lcov-reporter": "^1.3.0",
+    "nyc": "^15.0.0",
     "prettier": "^2.0.2"
   }
 }
