@@ -1,11 +1,11 @@
 {
   "name": "warriorz-backend",
   "version": "1.0.0",
-  "description": "The back end of the warriorz",
-  "main": "index.js",
+  "description": "The back end of the worriorz",
+  "main": "server/index.js",
   "scripts": {
-    "test": "nyc --reporter=html --reporter=text mocha --require @babel/register --timeout 5000 ./server/tests/*.js --exit",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+    "start": "babel-node -- server/index.js",
+    "test": "nyc --reporter=html --reporter=text mocha --require @babel/register --timeout 5000 ./server/tests/*.js --exit"
   },
   "repository": {
     "type": "git",
@@ -20,26 +20,32 @@
   "dependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
-    "@babel/node": "^7.8.4",
-    "@babel/plugin-transform-regenerator": "^7.8.3",
-    "@babel/polyfill": "^7.8.3",
-    "@babel/preset-env": "^7.8.4",
+    "@babel/node": "^7.8.7",
+    "@babel/polyfill": "^7.8.7",
+    "@babel/preset-env": "^7.9.0",
     "@babel/register": "^7.9.0",
-    "babel-eslint": "^10.0.3",
-    "babel-node": "0.0.1-security",
-    "chai": "^4.2.0",
-    "chai-http": "^4.3.0",
+    "babel-eslint": "^10.1.0",
+    "babel-register": "^6.26.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "mocha": "^7.1.1",
-    "nyc": "^15.0.0"
+    "nyc": "^15.0.0",
+    "path": "^0.12.7",
+    "pg": "^7.18.2",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.5",
+    "swagger-jsdoc": "^4.0.0",
+    "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.9.0",
+    "babel-install": "^2.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.2",
-    "prettier": "^2.0.1"
+    "prettier": "^2.0.2"
   }
 }
