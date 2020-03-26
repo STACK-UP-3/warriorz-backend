@@ -3,6 +3,4 @@ package-lock.json
 coverage
 .nyc_output
 .env
-
-# Coverage configuration file
 .coveralls.yml
