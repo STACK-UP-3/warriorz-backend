@@ -4,9 +4,6 @@ node_js:
 cache:
   directories:
     - "node_modules"
-  
-before_install:
-  - npm install sequelize-cli -g 
 
 install:
   - npm install
