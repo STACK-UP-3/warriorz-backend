@@ -1,4 +1,9 @@
+
+
+
+
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 const {
@@ -8,7 +13,7 @@ const {
   DB_NAME,
   DB_HOST,
   DB_NAME_TEST,
-  DATABASE_URL
+  DATABASE_URL,
 } = process.env;
 
 module.exports = {
@@ -17,21 +22,25 @@ module.exports = {
     password: DB_PASSWORD,
     database: DB_NAME,
     host: DB_HOST,
-    dialect: "postgres"
+    dialect: 'postgres',
+    port: DB_PORT,
   },
   test: {
     username: DB_USER,
     password: DB_PASSWORD,
     database: DB_NAME_TEST,
     host: DB_HOST,
-    dialect: "postgres"
+    dialect: 'postgres',
+    port: DB_PORT,
   },
   production: {
     username: DB_USER,
     password: DB_PASSWORD,
     database: DB_NAME,
     host: DB_HOST,
-    dialect: "postgres"
-  }
+    dialect: 'postgres',
+    port: DB_PORT,
+    use_env_variable: 'DATABASE_URL',
+    url: DATABASE_URL,
+  },
 };
-

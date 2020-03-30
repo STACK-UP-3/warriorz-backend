@@ -5,7 +5,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// defining swagger configurations
 const swaggerDefinition = {
   definition: {
     info: {
@@ -27,20 +26,15 @@ const swaggerDefinition = {
   },
   apis: ['./server/swagger/*.swagger.js'],
 };
-
-// configure swaggerJSDoc
 const swaggerDocumentation = swaggerJSDoc(swaggerDefinition);
 
-// routing swagger
 const swaggerRouter = Router();
 
-// route for getting docs in json format
 swaggerRouter.get('/json', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerDocumentation);
 });
 
-// route for get docs in swaggerui
 swaggerRouter.use('/', swaggerui.serve, swaggerui.setup(swaggerDocumentation));
 
 export default swaggerRouter;

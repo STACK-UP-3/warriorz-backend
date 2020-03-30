@@ -6,7 +6,6 @@
     "es6": true,
     "mocha": true
   },
-  "plugins": ["prettier"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -21,15 +20,7 @@
     "consistent-return": "warn",
     "no-param-reassign": "warn",
     "comma-dangle": "warn",
-    "prettier/prettier": [
-      "error",
-      {
-        "singleQuote": true,
-        "trailingComma": "all",
-        "bracketSpacing": true,
-        "endOfLine": "auto"
-      }
-    ],
+   
     "curly": ["error", "multi-line"],
     "import/no-unresolved": [2, { "commonjs": true }],
     "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
@@ -46,9 +37,9 @@
       "error",
       {
         "require": {
-          "FunctionDeclaration": true,
-          "MethodDefinition": true,
-          "ClassDeclaration": true
+          "FunctionDeclaration": false,
+          "MethodDefinition": false,
+          "ClassDeclaration": false
         }
       }
     ],
