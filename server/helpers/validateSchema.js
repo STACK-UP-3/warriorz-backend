@@ -8,6 +8,13 @@ export const signupValidateSchema = Joi.object({
       minDomainSegments: 2,
     })
     .required(),
-  password: Joi.string().pattern(/^[a-zA-Z0-9!@#$%&*]{3,25}$/).required(),
+  password: Joi.string()
+    .pattern(/^[a-zA-Z0-9!@#$%&*]{3,25}$/)
+    .required(),
   bio: Joi.string().min(5),
+});
+
+export const signinValidateSchema = Joi.object({
+  email: Joi.string().required(),
+  password: Joi.string().required(),
 });

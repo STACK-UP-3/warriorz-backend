@@ -20,7 +20,6 @@
     "consistent-return": "warn",
     "no-param-reassign": "warn",
     "comma-dangle": "warn",
-   
     "curly": ["error", "multi-line"],
     "import/no-unresolved": [2, { "commonjs": true }],
     "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
