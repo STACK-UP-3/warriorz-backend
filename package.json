@@ -9,11 +9,14 @@
       "server/models",
       "server/routes/*.js",
       "server/services/email.create.js",
-      "logger.js"
+      "logger.js",
+      "server/config/passport.js",
+      "server/helpers/profiler.js"
     ]
   },
   "scripts": {
     "test": "set NODE_ENV=test && npm run migration:reset && nyc --reporter=html --reporter=text mocha --require @babel/register ./server/tests/*.test.js --recursive ./server/tests/**/*.test.js --exit",
+    "test1": "npm run win:devtable && nyc --reporter=html --reporter=text mocha --require @babel/register ./server/tests/*.test.js --recursive ./server/tests/**/*.test.js --exit",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "start": "npm run migration && npm run migration:seed && babel-node -- server/index.js",
     "start:dev": "npm run migration:reset && nodemon --exec babel-node ./server/index.js",
@@ -25,7 +28,7 @@
     "win:start:dev": "nodemon --exec babel-node ./server/index.js",
     "win:createTables": "npx sequelize-cli db:migrate",
     "win:drop": "npx sequelize-cli db:migrate:undo:all",
-    "win:devtable": " npm run drop && npm run createTables && npx sequelize-cli db:seed:all"
+    "win:devtable": "npm run win:drop && npm run win:createTables && npx sequelize-cli db:seed:all"
   },
   "repository": {
     "type": "git",
@@ -50,6 +53,7 @@
     "babel-eslint": "^10.1.0",
     "babel-register": "^6.26.0",
     "bcrypt": "^4.0.1",
+    "cookie-session": "^1.4.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
@@ -57,11 +61,15 @@
     "nodemailer": "^6.4.6",
     "nodemon": "^2.0.2",
     "nyc": "^15.0.0",
+    "passport": "^0.4.1",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth20": "^2.0.0",
     "path": "^0.12.7",
     "pg": "^7.18.2",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.5",
     "sequelize-cli": "^5.5.1",
+    "sinon": "^9.0.1",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4",
     "winston": "^3.2.1",

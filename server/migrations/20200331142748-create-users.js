@@ -20,7 +20,6 @@ export function up(queryInterface, Sequelize) {
     },
     password: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
     bio: {
       type: Sequelize.STRING,
@@ -34,10 +33,10 @@ export function up(queryInterface, Sequelize) {
       defaultValue: false,
     },
     googleId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
     },
     facebookId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
     },
     token: {
       type: Sequelize.TEXT,
@@ -90,3 +89,12 @@ export function up(queryInterface, Sequelize) {
 export function down(queryInterface) {
   return queryInterface.dropTable('users');
 }
+// module.exports = {
+//   up: function(queryInterface, Sequelize) {
+//     return Promise.resolve()
+//   },
+
+//   down: function(queryInterface) {
+//     return Promise.resolve()
+//   }
+// };
