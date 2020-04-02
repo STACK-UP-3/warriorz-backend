@@ -19,8 +19,8 @@
     "new-cap": 0,
     "consistent-return": "warn",
     "no-param-reassign": "warn",
-    "comma-dangle": "warn",
-   
+    "comma-dangle": 0,
+
     "curly": ["error", "multi-line"],
     "import/no-unresolved": [2, { "commonjs": true }],
     "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
