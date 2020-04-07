@@ -38,9 +38,28 @@ export default (sequelize, DataTypes) => {
       facebookId: {
         type: DataTypes.INTEGER,
       },
+      token:{
+        type: DataTypes.STRING,
+      },
     },
     {},
   );
-  users.associate = ()=> {};
+  
+  users.associate = (models)=> {
+    users.hasMany(models.trips, {
+      foreignKey: 'user_id',
+      as: 'user',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    });
+
+    users.hasOne(models.usermanagements, {
+      foreignKey: 'user_id',
+      as: 'userManagement',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    });
+
+  };
   return users;
 };

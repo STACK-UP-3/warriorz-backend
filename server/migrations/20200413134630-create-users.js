@@ -42,13 +42,16 @@ export function up(queryInterface, Sequelize) {
     facebookId: {
       type: Sequelize.INTEGER,
     },
+    token:{
+      type: Sequelize.STRING,
+    },
     createdAt: {
       allowNull: false,
-      type: Sequelize.DATE,
+      type: Sequelize.DATEONLY,
     },
     updatedAt: {
       allowNull: false,
-      type: Sequelize.DATE,
+      type: Sequelize.DATEONLY,
     },
   });
 }

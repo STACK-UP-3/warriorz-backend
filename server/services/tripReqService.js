@@ -1,0 +1,25 @@
+import models from '../models';
+
+const { triprequests } = models;
+
+
+/**
+ * @exports
+ * @class TripsRequestService
+ */
+
+class TripsRequestService {
+  /**
+   * create new trip
+   * @static createtrip
+   * @param {object} newtrip
+   * @memberof TripsrequestService
+   * @returns {object} data
+   */
+
+  static createTripReq(newTrip) {
+    return triprequests.create(newTrip);
+  }
+}
+
+export default TripsRequestService;
