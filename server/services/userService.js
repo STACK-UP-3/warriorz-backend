@@ -44,7 +44,7 @@ class UserService {
    * @param {*} prop HTTP request
    * @returns {*} JSON data
    */
-  static findByLogin(prop) {
+  static findByEmail(prop) {
     return users.findOne({
       where: prop,
     });

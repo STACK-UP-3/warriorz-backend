@@ -69,11 +69,8 @@ class User {
    * @returns {*} JSON data
    */
   static async signIn(req, res) {
-    // Get user credentials from request body
-    const { email } = req.body;
-
-    // Verify user exists in database
-    const userRecord = await userService.findByLogin({ email });
+    // Get user from validated request
+    const userRecord = req.user;
 
     // Create access token if user passes validation
     const userInfo = {

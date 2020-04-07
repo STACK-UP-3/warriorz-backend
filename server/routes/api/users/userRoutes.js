@@ -10,6 +10,11 @@ router.get(
   validate.verificationValidation,
   user.accountVerification,
 );
-router.post('/signin', validate.validateSignIn, user.signIn);
+router.post(
+  '/signin',
+  validate.validateSignInRequestInput,
+  validate.validateSignIn,
+  user.signIn,
+);
 
 export default router;

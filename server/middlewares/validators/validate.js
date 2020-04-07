@@ -84,7 +84,7 @@ class Validator {
     }
   }
 
-  static async validateSignIn(req, res, next) {
+  static validateSignInRequestInput(req, res, next) {
     const { email, password } = req.body;
 
     const { error } = signinValidateSchema.validate({
@@ -100,15 +100,24 @@ class Validator {
       return util.send(res);
     }
 
-    const userRecord = await userService.findByLogin({ email });
+    return next();
+  }
+
+  static async validateSignIn(req, res, next) {
+    const { email, password } = req.body;
+
+    const userRecord = await userService.findByEmail({ email });
 
     if (!userRecord) {
-      util.setError(404, 'Incorrect credentials');
+      util.setError(404, 'Incorrect Email or Password');
       return util.send(res);
     }
 
     if (!userRecord.dataValues.isVerified) {
-      util.setError(404, 'You must be verified to login');
+      let message = 'You must be verified to login. ';
+      message += `To activate your account, click on the verification link sent to your email ${userRecord.dataValues.email}`;
+
+      util.setError(403, message);
       return util.send(res);
     }
 
@@ -118,9 +127,11 @@ class Validator {
     );
 
     if (!isCorrectPassword) {
-      util.setError(400, 'Incorrect credentials');
+      util.setError(403, 'Incorrect Email or Password');
       return util.send(res);
     }
+
+    req.user = userRecord;
 
     return next();
   }
