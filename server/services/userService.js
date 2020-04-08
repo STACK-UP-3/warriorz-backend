@@ -27,7 +27,6 @@ class UserService {
    * @memberof UserService
    * @returns {object} data
    */
-
   static findByProp(prop) {
     return users.findAll({
       where: prop,
@@ -36,6 +35,17 @@ class UserService {
 
   static updateAtt(set, prop) {
     return users.update(set, {
+      where: prop,
+    });
+  }
+
+  /**
+   * Find a User in storage using login credentials.
+   * @param {*} prop HTTP request
+   * @returns {*} JSON data
+   */
+  static findByEmail(prop) {
+    return users.findOne({
       where: prop,
     });
   }
