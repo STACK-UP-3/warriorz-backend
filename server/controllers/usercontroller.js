@@ -32,14 +32,13 @@ class User {
       process.env.JWT_KEY,
       {
         expiresIn: '4h',
-      }
+      },
     );
     const subject = 'Verification Email';
-
     sendEmail(
       emailTemplate(token, newUser.firstname, newUser.lastname, newUser.email),
       subject,
-      newUser.email
+      newUser.email,
     );
 
     const message = `Dear ${userGot.firstname} ${userGot.lastname}, A verification email has been sent to you email please go and confirm that email.`;
@@ -72,9 +71,9 @@ class User {
     const footer = `For more info or questions, contact : ${process.env.EMAIL}`;
     const html = `<div>${message}<a href="${resetPasswordUrl}" style="background-color:#028b95;color:white;padding:10px 20px;text-decoration:none">Clik Here</a><br/><br/>${footer}</div>`;
 
-    sendEmail(html, subj, email);
-    const msg = `Reset token sent to email!`;
-    util.setSuccess(200, msg);
+    const returnMessage = sendEmail(html, subj, email);
+    const msg = returnMessage.message;
+    util.setSuccess(returnMessage.status, msg);
     return util.send(res);
   }
 
@@ -84,6 +83,39 @@ class User {
     await userService.updateAtt({ password }, { email });
     const message = `Password changed successfully!`;
     util.setSuccess(200, message);
+    return util.send(res);
+  }
+
+  /**
+   * Sign in as a User
+   * @param {*} req HTTP request
+   * @param {*} res HTTP response
+   * @returns {*} JSON data
+   */
+  static async signIn(req, res) {
+    // Get user from validated request
+    const userRecord = req.user;
+
+    // Create access token if user passes validation
+    const userInfo = {
+      firstName: userRecord.dataValues.firstname,
+      lastName: userRecord.dataValues.lastname,
+      email: userRecord.dataValues.email,
+      isVerified: userRecord.dataValues.isVerified,
+    };
+
+    const accessToken = jwt.sign(userInfo, process.env.JWT_KEY, {
+      expiresIn: '4h',
+    });
+
+    const data = {
+      access_token: accessToken,
+      user: userInfo,
+    };
+
+    const message = 'You have signed in successfully';
+
+    util.setSuccess(200, message, data);
     return util.send(res);
   }
 }

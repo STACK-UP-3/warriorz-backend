@@ -8,7 +8,13 @@ router.post('/signup', validate.signupValidate, user.signUp);
 router.get(
   '/verify/:token',
   validate.verificationValidation,
-  user.accountVerification
+  user.accountVerification,
+);
+router.post(
+  '/signin',
+  validate.validateSignInRequestInput,
+  validate.validateSignIn,
+  user.signIn,
 );
 
 export default router;

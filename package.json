@@ -7,21 +7,18 @@
     "exclude": [
       "server/swagger/*",
       "server/models",
-      "server/routes/*.js"
+      "server/routes/*.js",
+      "server/services/email.create.js"
     ]
   },
   "scripts": {
+    "test": "set NODE_ENV=test && npm run migration:undo && npm run migration && nyc --reporter=html --reporter=text mocha ./server/tests/*.test.js --exit --require @babel/register",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "start": " npm run createTables && babel-node -- server/index.js",
-    "dev": " nodemon --exec babel-node server/index.js",
-    "drop": "npx sequelize-cli db:migrate:undo:all --to 20200331142748-create-users.js",
-    "createTables": "npx sequelize-cli db:migrate",
-    "testTables": "npx sequelize-cli db:migrate --env test",
-    "drop:test": "npx sequelize-cli db:migrate:undo:all --to 20200331142748-create-users.js --env test",
-    "devtable": " npm run drop && npm run createTables",
+    "start": "npm run migration && babel-node -- server/index.js",
+    "start:dev": "nodemon --exec babel-node ./server/index.js",
     "migration": "babel-node node_modules/.bin/sequelize db:migrate",
-    "undomigration": "babel-node node_modules/.bin/sequelize db:migrate:undo:all --to 20200331142748-create-users.js",
-    "test": "set NODE_ENV=test && npm run migration && npm run undomigration && npm run migration && nyc --reporter=html --reporter=text mocha ./server/tests/*.test.js --exit --require @babel/register"
+    "migration:undo": "babel-node node_modules/.bin/sequelize db:migrate:undo:all",
+    "migration:undo-latest": "babel-node node_modules/.bin/sequelize db:migrate:undo"
   },
   "repository": {
     "type": "git",
@@ -37,6 +34,7 @@
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
     "@babel/node": "^7.8.7",
+    "@babel/plugin-transform-regenerator": "^7.8.7",
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/polyfill": "^7.8.7",
     "@babel/preset-env": "^7.9.0",

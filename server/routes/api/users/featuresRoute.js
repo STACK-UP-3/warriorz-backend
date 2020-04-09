@@ -10,14 +10,14 @@ router.post(
   validate.forgotPasswordDataValidate,
   UserVerification.checkUserByEmail,
   UserVerification.isAccountVerified,
-  user.sendResetPasswordEmail
+  user.sendResetPasswordEmail,
 );
 router.patch(
   '/password/reset/:token',
   validate.resetPasswordDataValidate,
   UserVerification.checkUserByEmail,
   UserVerification.isAccountVerified,
-  user.resetPassword
+  user.resetPassword,
 );
 
 export default router;

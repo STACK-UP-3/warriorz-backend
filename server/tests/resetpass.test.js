@@ -24,7 +24,7 @@ before((done) => {
   user.email = 'francoismugorozi@gmail.com';
   user.isVerified = false;
   userService.createuser(user);
-  user.email = 'francoismugorozi@yahoo.com';
+  user.email = 'xxxxxx@gmail.com';
   user.isVerified = true;
   userService.createuser(user);
   done();

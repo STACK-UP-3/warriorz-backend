@@ -1,9 +1,11 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
 import {
   signupValidateSchema,
   validateEmail,
   validatePassword,
+  signinValidateSchema,
 } from '../../helpers/validateSchema';
 import userService from '../../services/userService';
 import Util from '../../helpers/util';
@@ -109,6 +111,57 @@ class Validator {
       return util.send(res);
     }
     req.body.email = email;
+    return next();
+  }
+
+  static validateSignInRequestInput(req, res, next) {
+    const { email, password } = req.body;
+
+    const { error } = signinValidateSchema.validate({
+      email,
+      password,
+    });
+
+    if (error) {
+      const message = error.details[0].message
+        .replace('/', '')
+        .replace(/"/g, '');
+      util.setError(400, message);
+      return util.send(res);
+    }
+
+    return next();
+  }
+
+  static async validateSignIn(req, res, next) {
+    const { email, password } = req.body;
+
+    const userRecord = await userService.findByEmail({ email });
+
+    if (!userRecord) {
+      util.setError(404, 'Incorrect Email or Password');
+      return util.send(res);
+    }
+
+    if (!userRecord.dataValues.isVerified) {
+      let message = 'You must be verified to login. ';
+      message += `To activate your account, click on the verification link sent to your email ${userRecord.dataValues.email}`;
+
+      util.setError(403, message);
+      return util.send(res);
+    }
+
+    const isCorrectPassword = await bcrypt.compare(
+      password,
+      userRecord.dataValues.password,
+    );
+
+    if (!isCorrectPassword) {
+      util.setError(403, 'Incorrect Email or Password');
+      return util.send(res);
+    }
+
+    req.user = userRecord;
     return next();
   }
 }

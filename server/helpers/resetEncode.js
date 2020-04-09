@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const encode = data => {
-  const token = jwt.sign(data, process.env.JWT_KEY, { expiresIn: '1d' });
+  const token = jwt.sign(data, process.env.JWT_KEY, { expiresIn: '1h' });
   return token;
 };
 
