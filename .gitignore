@@ -1,6 +1,8 @@
+# Ignore Node project files/directories
 node_modules
-package-lock.json
 coverage
+logs
+package-lock.json
 .nyc_output
 .env
 .coveralls.yml

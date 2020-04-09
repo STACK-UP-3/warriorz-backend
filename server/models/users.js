@@ -23,7 +23,7 @@ export default (sequelize, DataTypes) => {
       },
       role: {
         type: DataTypes.STRING,
-        defaultValue: 'user',
+        defaultValue: 'Requester',
       },
       isVerified: {
         type: DataTypes.BOOLEAN,
@@ -56,7 +56,7 @@ export default (sequelize, DataTypes) => {
     },
     {},
   );
-  
+
   users.associate = (models) => {
     users.hasOne(models.photos, {
       foreignKey: 'ownerId',
@@ -77,6 +77,6 @@ export default (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });
-  }
+  };
   return users;
 };

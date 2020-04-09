@@ -10,10 +10,9 @@ import {
 } from '../../helpers/validateSchema';
 import userService from '../../services/userService';
 import Util from '../../helpers/util';
-import filteredProfile from '../../helpers/profileFilter'
+import filteredProfile from '../../helpers/profileFilter';
 import { decode } from '../../helpers/resetEncode';
 import { errorLogger } from '../../helpers/loggerHandle';
-
 
 const util = new Util();
 
@@ -118,7 +117,7 @@ class Validator {
     return next();
   }
 
-  static validateSignInRequestInput(req, res, next) {
+  static validateSignInRequestData(req, res, next) {
     const { email, password } = req.body;
 
     const { error } = signinValidateSchema.validate({
@@ -137,7 +136,7 @@ class Validator {
     return next();
   }
 
-  static async validateSignIn(req, res, next) {
+  static async verifyUser(req, res, next) {
     const { email, password } = req.body;
 
     const userRecord = await userService.findByEmail({ email });
@@ -208,6 +207,21 @@ class Validator {
       }
     }
     req.body = filteredProfile(req.body);
+    return next();
+  }
+
+  static async verifyResourceExists(req, res, next) {
+    // Get model identifier from request parameters
+    const { id } = req.params;
+
+    // check database for existence
+    const exists = await userService.findById(id);
+
+    if (!exists) {
+      util.setError(404, `User with id ${id} does not exist`);
+      return util.send(res);
+    }
+
     return next();
   }
 }

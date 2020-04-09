@@ -1,9 +1,10 @@
 import chai, { expect } from 'chai';
 import { describe, it } from 'mocha';
 import chaiHttp from 'chai-http';
-import app from '../app';
-import { encode } from '../helpers/resetEncode';
-import userService from '../services/userService';
+import app from '../../app';
+
+import { encode } from '../../helpers/resetEncode';
+import userService from '../../services/userService';
 
 chai.should();
 chai.use(chaiHttp);
@@ -18,16 +19,15 @@ const user = {
 
 let token;
 
-before((done) => {
-  userService.createuser(user);
+before(async () => {
+  await userService.createuser(user);
   token = encode({ email: user.email });
   user.email = 'francoismugorozi@gmail.com';
   user.isVerified = false;
-  userService.createuser(user);
+  await userService.createuser(user);
   user.email = 'xxxxxx@gmail.com';
   user.isVerified = true;
-  userService.createuser(user);
-  done();
+  await userService.createuser(user);
 });
 
 describe('test reset password', () => {

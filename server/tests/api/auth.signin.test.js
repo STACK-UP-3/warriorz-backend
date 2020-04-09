@@ -3,14 +3,14 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import bcrypt from 'bcrypt';
-import app from '../app';
+import app from '../../app';
 
-import userService from '../services/userService';
+import userService from '../../services/userService';
 
 chai.use(chaiHttp);
 const { expect } = chai;
 
-describe('~~~ Testing Route (User Sign-In): POST /api/v1/users/signin ~~~', () => {
+describe('\n Testing Route (User Sign-In): POST /api/v1/users/signin \n', () => {
   // Define variables
   const unverifiedUser = {
     firstname: 'Unverified',
@@ -76,8 +76,10 @@ describe('~~~ Testing Route (User Sign-In): POST /api/v1/users/signin ~~~', () =
         expect(res.body.data.user).to.includes({
           firstName: verifiedUser.firstname,
           lastName: verifiedUser.lastname,
+          fullName: `${verifiedUser.firstname} ${verifiedUser.lastname}`,
           email: verifiedUser.email,
           isVerified: true,
+          role: 'Requester',
         });
         done();
       });
