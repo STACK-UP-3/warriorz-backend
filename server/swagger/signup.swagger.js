@@ -3,9 +3,9 @@
  * /api/v1/users/signup:
  *   post:
  *     tags:
- *       - auth
+ *       - Authentication
  *     name: swagger
- *     summary: This is used for signup endpoint   
+ *     summary: This is used for signup endpoint
  *     produces:
  *       - application/json
  *     parameters:

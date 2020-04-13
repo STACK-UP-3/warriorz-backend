@@ -3,10 +3,13 @@ import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import {
   signupValidateSchema,
+  validateEmail,
+  validatePassword,
   signinValidateSchema,
 } from '../../helpers/validateSchema';
 import userService from '../../services/userService';
 import Util from '../../helpers/util';
+import { decode } from '../../helpers/resetEncode';
 
 const util = new Util();
 
@@ -84,6 +87,33 @@ class Validator {
     }
   }
 
+  static async forgotPasswordDataValidate(req, res, next) {
+    const { email } = req.body;
+    const { error } = validateEmail.validate({ email });
+    if (error) {
+      util.setError(400, error.message);
+      return util.send(res);
+    }
+    return next();
+  }
+
+  static async resetPasswordDataValidate(req, res, next) {
+    const { email } = decode(req.params.token);
+    if (!email) {
+      const error = `The token is invalid or has expired!`;
+      util.setError(403, error);
+      return util.send(res);
+    }
+    const { password } = req.body;
+    const { error } = validatePassword.validate({ password });
+    if (error) {
+      util.setError(400, error.message);
+      return util.send(res);
+    }
+    req.body.email = email;
+    return next();
+  }
+
   static validateSignInRequestInput(req, res, next) {
     const { email, password } = req.body;
 
@@ -132,7 +162,6 @@ class Validator {
     }
 
     req.user = userRecord;
-
     return next();
   }
 }

@@ -7,6 +7,7 @@ import userService from '../services/userService';
 import sendEmail from '../services/email.create';
 import emailTemplate from '../services/templates/verMessage';
 import Util from '../helpers/util';
+import { encode, decode } from '../helpers/resetEncode';
 
 const util = new Util();
 
@@ -34,7 +35,6 @@ class User {
       },
     );
     const subject = 'Verification Email';
-
     sendEmail(
       emailTemplate(token, newUser.firstname, newUser.lastname, newUser.email),
       subject,
@@ -58,6 +58,30 @@ class User {
 
     const message = 'Account was successfully verified.';
 
+    util.setSuccess(200, message);
+    return util.send(res);
+  }
+
+  static async sendResetPasswordEmail(req, res) {
+    const { email } = req.body;
+    const resetToken = encode({ email });
+    const resetPasswordUrl = `${process.env.RESET_URL}?token=${resetToken}`;
+    const subj = 'Barefoot Nomad - Password Reset (Expires In 1 hour)';
+    const message = `Your password reset token (expires in 1 hour)<br/>Follow the link to reset it.<br/>If you didn't forget it ignore this message.<br/><br/>`;
+    const footer = `For more info or questions, contact : ${process.env.EMAIL}`;
+    const html = `<div>${message}<a href="${resetPasswordUrl}" style="background-color:#028b95;color:white;padding:10px 20px;text-decoration:none">Clik Here</a><br/><br/>${footer}</div>`;
+
+    const returnMessage = sendEmail(html, subj, email);
+    const msg = returnMessage.message;
+    util.setSuccess(returnMessage.status, msg);
+    return util.send(res);
+  }
+
+  static async resetPassword(req, res) {
+    const { email } = decode(req.params.token);
+    const password = await bcrypt.hash(req.body.password, 10);
+    await userService.updateAtt({ password }, { email });
+    const message = `Password changed successfully!`;
     util.setSuccess(200, message);
     return util.send(res);
   }

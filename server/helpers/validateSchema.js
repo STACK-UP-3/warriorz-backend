@@ -14,6 +14,21 @@ export const signupValidateSchema = Joi.object({
   bio: Joi.string().min(5),
 });
 
+export const validateEmail = Joi.object({
+  email: Joi.string()
+    .email({
+      minDomainSegments: 2,
+    })
+    .required()
+    .error(new Error('The email is not a valid email!')),
+});
+export const validatePassword = Joi.object({
+  password: Joi.string()
+    .pattern(/^[a-zA-Z0-9!@#$%&*]{3,25}$/)
+    .required()
+    .error(new Error('Password must be atleast 3 characters!')),
+});
+
 export const signinValidateSchema = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().required(),
