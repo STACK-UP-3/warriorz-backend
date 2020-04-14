@@ -1,0 +1,37 @@
+{"message":{"error":"Incorrect Date Format","format":"YYYY-MM-DD","path":"date"},"level":"error","service":"user-service"}
+{"message":{"error":"Incorrect Date Format","format":"YYYY-MM-DD","path":"date"},"level":"error","service":"user-service"}
+{"service":"user-service","error":"Incorrect Date Format","format":"YYYY-MM-DD","path":"date","level":"error","message":"POST"}
+{"service":"user-service","error":"Incorrect Date Format","format":"YYYY-MM-DD","path":"date","level":"error","message":"/api/v1/trips"}
+{"message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, MESSAGE: [object Object], IP-address: ::1","level":"error","service":"user-service"}
+{"service":"user-service","error":"Incorrect Date Format","format":"YYYY-MM-DD","path":"date","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 401, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 401, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 401, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","error":"Origin City is not supported by Barefoot Nomad","tip":"Choose from the cities we have available....","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","error":"Destination City is not supported by Barefoot Nomad","tip":"Choose from the cities we have available....","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","error":"Incorrect Date Format","format":"YYYY-MM-DD","path":"date","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","error":"Incorrect use of special characters","tip":"Please avoid using numbers or special characters characters that looks like = or /","path":"travelReason","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 401, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 401, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 401, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","error":"Origin City is not supported by Barefoot Nomad","tip":"Choose from the cities we have available....","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","error":"Destination City is not supported by Barefoot Nomad","tip":"Choose from the cities we have available....","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","error":"Incorrect Date Format","format":"YYYY-MM-DD","path":"date","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","error":"Incorrect use of special characters","tip":"Please avoid using numbers or special characters characters that looks like = or /","path":"travelReason","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 401, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 401, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 401, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","error":"Origin City is not supported by Barefoot Nomad","tip":"Choose from the cities we have available....","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","error":"Destination City is not supported by Barefoot Nomad","tip":"Choose from the cities we have available....","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","error":"Incorrect Date Format","format":"YYYY-MM-DD","path":"date","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","error":"Incorrect use of special characters","tip":"Please avoid using numbers or special characters characters that looks like = or /","path":"travelReason","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::ffff:127.0.0.1"}
+{"service":"user-service","level":"error","message":"METHOD: POST, and the URL: /api/v1/trips, STATUSCODE: 400, IP-address: ::ffff:127.0.0.1"}

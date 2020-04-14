@@ -8,17 +8,23 @@
       "server/swagger/*",
       "server/models",
       "server/routes/*.js",
-      "server/services/email.create.js"
+      "server/services/email.create.js",
+      "logger.js"
     ]
   },
   "scripts": {
-    "test": "set NODE_ENV=test && npm run migration:undo && npm run migration && nyc --reporter=html --reporter=text mocha ./server/tests/*.test.js --exit --require @babel/register",
+    "test": "set NODE_ENV=test && npm run migration:undo && npm run migration && npm run seeds && nyc --reporter=html --reporter=text mocha ./server/tests/*.test.js --exit --require @babel/register",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "start": "npm run migration && babel-node -- server/index.js",
+    "start": "npm run migrationSeeds && babel-node -- server/index.js",
     "start:dev": "nodemon --exec babel-node ./server/index.js",
     "migration": "babel-node node_modules/.bin/sequelize db:migrate",
+    "migrationSeeds": "babel-node node_modules/.bin/sequelize db:migrate && babel-node node_modules/.bin/sequelize db:seed:all",
     "migration:undo": "babel-node node_modules/.bin/sequelize db:migrate:undo:all",
-    "migration:undo-latest": "babel-node node_modules/.bin/sequelize db:migrate:undo"
+    "migration:undo-latest": "babel-node node_modules/.bin/sequelize db:migrate:undo",
+    "seeds": "babel-node node_modules/.bin/sequelize db:seed:all",
+    "drop": "npx sequelize-cli db:migrate:undo:all",
+    "createTables": "npx sequelize-cli db:migrate",
+    "devtable": " npm run drop && npm run createTables && npx sequelize-cli db:seed:all"
   },
   "repository": {
     "type": "git",

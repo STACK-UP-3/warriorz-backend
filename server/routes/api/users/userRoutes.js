@@ -16,5 +16,4 @@ router.post(
   validate.validateSignIn,
   user.signIn,
 );
-
 export default router;

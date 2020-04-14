@@ -20,13 +20,6 @@ class UserService {
     return users.create(newUser);
   }
 
-  /**
-   * find user
-   * @static findUser
-   * @param {object} prop
-   * @memberof UserService
-   * @returns {object} data
-   */
   static findByProp(prop) {
     return users.findAll({
       where: prop,

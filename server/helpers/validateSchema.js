@@ -14,6 +14,15 @@ export const signupValidateSchema = Joi.object({
   bio: Joi.string().min(5),
 });
 
+export const tripValidateSchema = Joi.object({
+  origin: Joi.string().min(3).max(40).regex(/^[a-zA-Z][a-zA-Z\s]*$/).required(),
+  destination: Joi.string().min(3).max(40).regex(/^[a-zA-Z][a-zA-Z\s]*$/).required(),
+  date: Joi.date().iso().required(),
+  returnDate: Joi.date().iso(),
+  travelReason: Joi.string().min(3).max(40).regex(/^[a-zA-Z][a-zA-Z\s]*$/).required(),
+  accommodationID: Joi.number().integer().required(),
+});
+
 export const validateEmail = Joi.object({
   email: Joi.string()
     .email({
