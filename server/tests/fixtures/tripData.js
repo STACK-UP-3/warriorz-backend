@@ -1,4 +1,4 @@
-const signupdumData = [
+const TripDumbData = [
     {      
       origin: 'Kigali',
       destination: 'Kampala',
@@ -58,5 +58,5 @@ const signupdumData = [
     },
   ];
   
-  export default signupdumData;
+  export default TripDumbData;
   

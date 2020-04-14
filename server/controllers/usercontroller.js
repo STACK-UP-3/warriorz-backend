@@ -7,7 +7,10 @@ import userService from '../services/userService';
 import sendEmail from '../services/email.create';
 import emailTemplate from '../services/templates/verMessage';
 import Util from '../helpers/util';
+import photoService from '../services/photoService'
 import { encode, decode } from '../helpers/resetEncode';
+import { infoLogger } from '../helpers/loggerHandle';
+
 
 const util = new Util();
 
@@ -102,12 +105,14 @@ class User {
       lastName: userRecord.dataValues.lastname,
       email: userRecord.dataValues.email,
       isVerified: userRecord.dataValues.isVerified,
+      id: userRecord.dataValues.id,
     };
 
     const accessToken = jwt.sign(userInfo, process.env.JWT_KEY, {
       expiresIn: '4h',
     });
-
+    
+    await userService.updateAtt({ token: accessToken }, { id: userInfo.id });
     const data = {
       access_token: accessToken,
       user: userInfo,
@@ -116,6 +121,56 @@ class User {
     const message = 'You have signed in successfully';
 
     util.setSuccess(200, message, data);
+    return util.send(res);
+  }
+
+  static async updateUserProfile(req, res) {
+    const userId = req.userData.id;
+    if (req.body.photoUrl) {
+      const userPhotoUrl = await photoService.findByProp({ ownerId: userId });
+      if (userPhotoUrl[0]) {
+        await photoService.updatePhoto({ url: req.body.photoUrl }, { ownerId: userId });
+      }
+      else {
+        const newPhoto = {
+          ownerId: userId,
+          type: 'user',
+          url: req.body.photoUrl,
+        };
+        await photoService.createphoto(newPhoto);
+      }
+    }
+    await userService.updateAtt(req.body, { id: userId });
+    const message = 'Profile updated successfuly';
+    infoLogger(req, 200, message);
+    util.setSuccess(200, message, req.body);
+    return util.send(res);
+  }
+
+  static async getUserProfile(req, res) {
+    const userId = req.userData.id;
+    const photoExist = await photoService.findByProp({ ownerId: userId });
+    const photoUrl = photoExist[0] ? photoExist[0].dataValues.url : '';
+    const userData = await userService.findByProp(req.body, { id: userId });
+
+    const profile = {
+      firstname: userData[0].dataValues.firstname,
+      lastname: userData[0].dataValues.lastname,
+      country: userData[0].dataValues.country,
+      gender: userData[0].dataValues.gender,
+      birthdate: userData[0].dataValues.birthdate,
+      preferredLanguage: userData[0].dataValues.preferredLanguage,
+      preferredCurrency: userData[0].dataValues.preferredCurrency,
+      bio: userData[0].dataValues.bio,
+      city: userData[0].dataValues.city,
+      department: userData[0].dataValues.department,
+      appNotification: userData[0].dataValues.appNotification,
+      emailNotification: userData[0].dataValues.emailNotification,
+      photoUrl,
+    }
+    const message = 'User profile found';
+    infoLogger(req, 200, message);
+    util.setSuccess(200, message, profile);
     return util.send(res);
   }
 }
