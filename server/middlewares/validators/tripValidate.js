@@ -4,6 +4,7 @@ import { tripValidateSchema } from '../../helpers/validateSchema';
 import cityService from '../../services/cityService';
 import Util from '../../helpers/util';
 import { errorLogger }from '../../helpers/loggerHandle';
+import errorTemp from '../../services/templates/TripsErrorTemplate';
 
 const util = new Util();
 
@@ -13,48 +14,8 @@ dotenv.config();
  export const tripValidation = async(req, res, next)=>{
     
     const { error } = tripValidateSchema.validate(req.body);
-
-    if (error) {
-      
-      if (
-        error.details[0].message
-          .replace('/', '')
-          .replace(/"/g, '')
-          .includes('must be in ISO')
-      ) {
-        const Error = {
-          error: 'Incorrect Date Format',
-          format: 'YYYY-MM-DD',
-          path: error.details[0].path[0],
-        };
-
-        errorLogger(req, 400, Error);
-
-        util.setError(400, Error);
-        return util.send(res);
-      }
-      if (
-        error.details[0].message
-          .replace('/', '')
-          .replace(/"/g, '')
-          .includes('fails to match the required')
-      ) {
-        const Error = {
-          error: 'Incorrect use of special characters',
-          tip:`Please avoid using numbers or special characters characters that looks like = or /`,
-          path: error.details[0].path[0],
-        };
-        errorLogger(req, 400, Error);
-        util.setError(400, Error);
-        return util.send(res);
-      }
-
-      const Error = error.details[0].message.replace('/', '').replace(/"/g, '');
-      errorLogger(req, 400, Error);
-      util.setError(400, Error);
-      return util.send(res);
-    }
-    next();
+    errorTemp(req,res,next ,error);
+ 
   }
 
   export const cityAndDateCheck= async(req, res, next)=>{
