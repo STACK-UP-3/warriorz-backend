@@ -2,9 +2,6 @@ export default (sequelize, DataTypes) => {
   const users = sequelize.define(
     'users',
     {
-      image: {
-        type: DataTypes.STRING,
-      },
       firstname: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -38,28 +35,48 @@ export default (sequelize, DataTypes) => {
       facebookId: {
         type: DataTypes.INTEGER,
       },
-      token:{
+      country: { type: DataTypes.STRING, allowNull: true },
+      phone: { type: DataTypes.STRING, allowNull: true },
+      gender: { type: DataTypes.STRING, allowNull: true },
+      birthdate: { type: DataTypes.DATE, allowNull: true },
+      preferredLanguage: {
         type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: 'English',
+      },
+      preferredCurrency: { type: DataTypes.STRING, allowNull: true },
+      city: { type: DataTypes.STRING, allowNull: true },
+      department: { type: DataTypes.STRING, allowNull: true },
+      lineManagerId: { type: DataTypes.STRING, allowNull: true },
+      appNotification: { type: DataTypes.BOOLEAN, defaultValue: true },
+      emailNotification: { type: DataTypes.BOOLEAN, defaultValue: true },
+      token: {
+        type: DataTypes.TEXT,
       },
     },
     {},
   );
   
-  users.associate = (models)=> {
+  users.associate = (models) => {
+    users.hasOne(models.photos, {
+      foreignKey: 'ownerId',
+      as: 'owner',
+      onDelete: 'CASCADE',
+      hooks: true,
+    });
+
     users.hasMany(models.trips, {
       foreignKey: 'user_id',
       as: 'user',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });
-
     users.hasOne(models.usermanagements, {
       foreignKey: 'user_id',
       as: 'userManagement',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });
-
-  };
+  }
   return users;
 };

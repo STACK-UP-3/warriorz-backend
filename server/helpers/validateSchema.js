@@ -42,3 +42,35 @@ export const signinValidateSchema = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().required(),
 });
+
+export const profileValidateSchema = Joi.object({
+  firstname: Joi.string()
+    .min(3)
+    .max(40)
+    .pattern(/^[a-zA-Z0-9]/),
+  lastname: Joi.string()
+    .min(3)
+    .max(40)
+    .pattern(/^[a-zA-Z0-9]/),
+  country: Joi.string()
+    .min(3)
+    .max(40)
+    .pattern(/^[a-zA-Z]/),
+  gender: Joi.string()
+    .max(5)
+    .pattern(/^[a-zA-Z]/),
+  birthdate: Joi.date(),
+  preferredLanguage: Joi.string()
+    .min(3)
+    .max(20)
+    .pattern(/^[a-zA-Z]/),
+  preferredCurrency: Joi.string().min(1).max(10),
+  bio: Joi.string().min(3).max(300),
+  city: Joi.string()
+    .min(3)
+    .pattern(/^[a-zA-Z]/),
+  department: Joi.string().min(1).max(100),
+  appNotification: Joi.boolean(),
+  emailNotification: Joi.boolean(),
+  photoUrl: Joi.string().uri(),
+});

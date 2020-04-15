@@ -73,7 +73,7 @@ describe('~~~ Testing Route (User Sign-In): POST /api/v1/users/signin ~~~', () =
         expect(res.body.status).to.equal(200);
         expect(res.body.message).to.equal('You have signed in successfully');
         // https://medium.com/building-ibotta/testing-arrays-and-objects-with-chai-js-4b372310fe6d
-        expect(res.body.data.user).to.eql({
+        expect(res.body.data.user).to.includes({
           firstName: verifiedUser.firstname,
           lastName: verifiedUser.lastname,
           email: verifiedUser.email,
