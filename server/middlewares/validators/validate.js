@@ -6,10 +6,14 @@ import {
   validateEmail,
   validatePassword,
   signinValidateSchema,
+  profileValidateSchema,
 } from '../../helpers/validateSchema';
 import userService from '../../services/userService';
 import Util from '../../helpers/util';
+import filteredProfile from '../../helpers/profileFilter'
 import { decode } from '../../helpers/resetEncode';
+import { errorLogger } from '../../helpers/loggerHandle';
+
 
 const util = new Util();
 
@@ -162,6 +166,48 @@ class Validator {
     }
 
     req.user = userRecord;
+    return next();
+  }
+
+  static async profileUpdateValidate(req, res, next) {
+    if (Object.keys(req.body).length === 0) {
+      const Error = 'Can not update empty data!';
+      errorLogger(req, 400, Error);
+      util.setError(400, Error);
+      return util.send(res);
+    }
+
+    const { error } = profileValidateSchema.validate(filteredProfile(req.body));
+    if (error) {
+      if (
+        error.details[0].message
+          .replace('/', '')
+          .replace(/"/g, '')
+          .includes('fails to match the required')
+      ) {
+        const Error = {
+          error: 'Incorrect use of special characters',
+          tip: `Please avoid characters that looks like = or /`,
+        };
+        errorLogger(req, 400, Error);
+        util.setError(400, Error);
+        return util.send(res);
+      }
+
+      const Error = error.details[0].message.replace('/', '').replace(/"/g, '');
+      errorLogger(req, 400, Error);
+      util.setError(400, Error);
+      return util.send(res);
+    }
+    if (req.body.photoUrl) {
+      if (req.body.photoUrl.match(/\.(jpeg|jpg|png)$/) === null) {
+        const Error = 'The userPhoto is not image url with(jpeg,jpg,png)!';
+        errorLogger(req, 400, Error);
+        util.setError(400, Error);
+        return util.send(res);
+      }
+    }
+    req.body = filteredProfile(req.body);
     return next();
   }
 }

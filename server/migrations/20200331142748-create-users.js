@@ -6,9 +6,6 @@ export function up(queryInterface, Sequelize) {
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-    image: {
-      type: Sequelize.STRING,
-    },
     firstname: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -43,7 +40,7 @@ export function up(queryInterface, Sequelize) {
       type: Sequelize.INTEGER,
     },
     token:{
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
     },
     createdAt: {
       allowNull: false,
@@ -52,6 +49,41 @@ export function up(queryInterface, Sequelize) {
     updatedAt: {
       allowNull: false,
       type: Sequelize.DATEONLY,
+    },
+    country: {
+      type: Sequelize.STRING,
+    },
+    gender: {
+      type: Sequelize.STRING,
+    },
+    birthdate: {
+      type: Sequelize.DATE,
+    },
+    preferredLanguage: {
+      type: Sequelize.STRING,
+    },
+    preferredCurrency: {
+      type: Sequelize.STRING,
+    },
+    city: {
+      type: Sequelize.STRING,
+    },
+    lineManagerId: {
+      type: Sequelize.STRING,
+    },
+    phone: {
+      type: Sequelize.STRING,
+    },
+    department: {
+      type: Sequelize.STRING,
+    },
+    appNotification: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: true,
+    },
+    emailNotification: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: true,
     },
   });
 }

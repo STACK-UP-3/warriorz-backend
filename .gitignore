@@ -10,3 +10,4 @@ coverage
 
 # Ignore Editor config file
 .editorconfig
+logs
