@@ -85,3 +85,4 @@ export const profileValidateSchema = Joi.object({
   emailNotification: Joi.boolean(),
   photoUrl: Joi.string().uri(),
 });
+
