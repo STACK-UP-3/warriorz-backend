@@ -21,7 +21,7 @@ export default (sequelize, DataTypes) => {
   Triprequest.associate =(models)=> {
     Triprequest.hasMany(models.trips, { 
       foreignKey: 'id',
-      as:'trip',
+      as:'tripRequest',
       sourceKey: 'trip_id', 
       onDelete: 'CASCADE',
     });

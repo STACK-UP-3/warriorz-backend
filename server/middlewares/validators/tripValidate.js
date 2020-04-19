@@ -10,13 +10,13 @@ const util = new Util();
 dotenv.config();
 class TripValidations{
 
- static async CreateTripJoiValidation(req, res, next){
+ static async createTripJoiValidation(req, res, next){
     const { error } = tripValidateSchema.validate(req.body);
     joiErrorsTemplate(req,res,next ,error);
  
   }
 
- static async CreateTripCityAndDateCheck(req, res, next){
+ static async createTripCityAndDateCheck(req, res, next){
     const findOrigin = await cityService.findByProp({city : req.body.origin  });
     const findDestination = await cityService.findByProp({city : req.body.destination });
     
@@ -40,7 +40,7 @@ class TripValidations{
      next();
   }
 
- static async CreateTripTypeCheck(req, _res, next){
+ static async createTripTypeCheck(req, _res, next){
     let type;
   if(req.body.returnDate){ 
     type='return-trip'; 

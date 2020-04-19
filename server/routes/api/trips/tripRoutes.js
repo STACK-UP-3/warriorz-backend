@@ -8,9 +8,9 @@ const router = express.Router();
 
 router.post('/', 
 [ authorizationCheck, findManagerByUserID ,
-  tripValidations.CreateTripJoiValidation, 
-  tripValidations.CreateTripCityAndDateCheck, 
-  tripValidations.CreateTripTypeCheck ], 
+  tripValidations.createTripJoiValidation, 
+  tripValidations.createTripCityAndDateCheck, 
+  tripValidations.createTripTypeCheck ], 
 tripController.createTripRequest );
 
 router.get( '/cities', authorizationCheck, tripController.getAllCities );
