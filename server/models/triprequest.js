@@ -19,7 +19,12 @@ export default (sequelize, DataTypes) => {
     },
   }, {});
   Triprequest.associate =(models)=> {
-    Triprequest.hasMany(models.trips, { foreignKey: 'trip_id', targetKey: 'id' });
+    Triprequest.hasMany(models.trips, { 
+      foreignKey: 'id',
+      as:'tripRequest',
+      sourceKey: 'trip_id', 
+      onDelete: 'CASCADE',
+    });
   };
   return Triprequest;
 };

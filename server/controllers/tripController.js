@@ -5,7 +5,7 @@ import tripService from '../services/tripServices';
 import reqService from '../services/tripReqService';
 import cityService from '../services/cityService';
 import Util from '../helpers/util';
-import { infoLogger }from '../helpers/loggerHandle';
+import { errorLogger }from '../helpers/loggerHandle';
 
 const util = new Util();
 
@@ -13,7 +13,7 @@ dotenv.config();
 
 class TripController {
   static async createTripRequest( req, res ){
-
+    try{
       const tripData = {
         user_id: req.userData.id,
         origin: req.body.origin,
@@ -34,8 +34,7 @@ class TripController {
         status: trip.dataValues.status,
       }
        await reqService.createTripReq(tripRequest);
-      
-      
+
       const message = `A ${req.tripType} was registered successfully.`;
   
       const data = {
@@ -46,20 +45,64 @@ class TripController {
         DateOfTravel: trip.dataValues.dateOfTravel,
         DateOfReturn: req.body.returnDate,
       };
-      infoLogger(req, 200, message);
+
       util.setSuccess(200, message, data);
       return util.send(res);
+    
+    } catch(error){
+      const Error = `Internal Server Error + ${error}`;
+      return errorLogger(req, 500, Error); 
+    }
   }
 
   static async getAllCities(req, res){
+    try{
     const message = 'All cities supported by Barefoot Nomad';
 
     const data = await cityService.findAllCities();
-
-    infoLogger(req, 200, message);
+    
     util.setSuccess(200, message, data)
     return util.send(res);
+    
+     } catch(error){
+      const Error = `Internal Server Error + ${error}`;
+      return errorLogger(req, 500, Error);
+      }
+      
   }
+
+  static async updateOpenTripDetails (req, res){
+    try{
+      const newTripData = {
+        origin: req.body.origin,
+        destination: req.body.destination,
+        dateOfTravel: req.body.date,
+        dateOfReturn: req.body.returnDate,
+        travelReason: req.body.travelReason,
+        accommodation_id: req.body.accommodationID,
+    }
+
+    const tripDetailsUpdater = await tripService.updateTrip(newTripData, { id: req.params.trip_id })
+    const message = `The ${tripDetailsUpdater[1].dataValues.type} details were successfully updated`;
+    const data = {
+      Name: req.userData.fullName,
+      Email: req.userData.email,
+      From: tripDetailsUpdater[1].dataValues.origin,
+      Destination: tripDetailsUpdater[1].dataValues.destination,
+      DateOfTravel: tripDetailsUpdater[1].dataValues.dateOfTravel,
+      DateOfReturn: req.body.returnDate,
+      TravelReason: tripDetailsUpdater[1].dataValues.travelReason,
+      accommodation_id: tripDetailsUpdater[1].dataValues.accommodation_id,
+    }
+    util.setSuccess(200, message, data)
+    return util.send(res);
+
+    } catch(error){
+      const Error = `Internal Server Error + ${error}`;
+      return errorLogger(req, 500, Error);
+    }
+    
+}
 }
 
 export default TripController;

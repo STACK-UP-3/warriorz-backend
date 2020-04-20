@@ -7,7 +7,7 @@ const util = new Util();
 
 dotenv.config();
 
-export default (req,res,next,message)=>{
+export const joiErrorsTemplate = (req,res,next,message)=>{
     if (message) {
       
     if (
@@ -50,4 +50,15 @@ export default (req,res,next,message)=>{
   }
      
   next();
+}
+
+export const cityErrorTemplate = (req,res,city)=>{
+  const Error = {
+    error: `${city} City is not supported by Barefoot Nomad`,
+    tip: 'Choose from the cities we have available....',
+     };
+     errorLogger(req, 404, Error);
+     util.setError(404, Error);
+     return util.send(res);
+
 }

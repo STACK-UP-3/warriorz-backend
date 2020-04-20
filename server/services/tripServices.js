@@ -19,6 +19,20 @@ class TripsService {
   static createTrip(newTrip) {
     return trips.create(newTrip);
   }
+  
+  static findByProp(prop) {
+    return trips.findAll({
+      where: prop,
+    });
+  }
+
+  static updateTrip(set, prop) {
+    return trips.update(set, {
+      where: prop,
+      returning: true,
+      plain: true,
+    });
+  }
 
 }
 

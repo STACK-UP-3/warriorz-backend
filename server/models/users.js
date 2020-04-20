@@ -67,7 +67,7 @@ export default (sequelize, DataTypes) => {
 
     users.hasMany(models.trips, {
       foreignKey: 'user_id',
-      as: 'user',
+      as: 'userTrip',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });

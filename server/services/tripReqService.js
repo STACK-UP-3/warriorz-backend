@@ -20,6 +20,12 @@ class TripsRequestService {
   static createTripReq(newTrip) {
     return triprequests.create(newTrip);
   }
+
+  static findByProp(prop) {
+    return triprequests.findAll({
+      where: prop,
+    });
+  }
 }
 
 export default TripsRequestService;

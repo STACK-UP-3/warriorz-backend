@@ -31,6 +31,7 @@ export const validateEmail = Joi.object({
     .required()
     .error(new Error('The email is not a valid email!')),
 });
+
 export const validatePassword = Joi.object({
   password: Joi.string()
     .pattern(/^[a-zA-Z0-9!@#$%&*]{3,25}$/)
@@ -41,6 +42,16 @@ export const validatePassword = Joi.object({
 export const signinValidateSchema = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().required(),
+});
+
+export const tripUpdateValidateSchema = Joi.object({
+  trip_id: Joi.number().integer(),
+  origin: Joi.string().min(3).max(40).regex(/^[a-zA-Z][a-zA-Z\s]*$/),
+  destination: Joi.string().min(3).max(40).regex(/^[a-zA-Z][a-zA-Z\s]*$/),
+  date: Joi.date().iso(),
+  returnDate: Joi.date().iso(),
+  travelReason: Joi.string().min(3).max(40).regex(/^[a-zA-Z][a-zA-Z\s]*$/),
+  accommodationID: Joi.number().integer(),
 });
 
 export const profileValidateSchema = Joi.object({
@@ -74,3 +85,4 @@ export const profileValidateSchema = Joi.object({
   emailNotification: Joi.boolean(),
   photoUrl: Joi.string().uri(),
 });
+
