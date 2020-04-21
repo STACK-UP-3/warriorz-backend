@@ -83,7 +83,6 @@ describe('\n Testing Route (User Sign-In): POST /api/v1/users/signin \n', () => 
         });
         done();
       });
-      done();
   });
 
   // User not verified

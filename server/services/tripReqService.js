@@ -24,6 +24,14 @@ class TripsRequestService {
   static findByProp(prop) {
     return triprequests.findAll({
       where: prop,
+      include: ['tripRequest'],
+    });
+  }
+
+  static findOneEntry(prop) {
+    return triprequests.findOne({
+      where: prop,
+      include: ['tripRequest'],
     });
   }
 }

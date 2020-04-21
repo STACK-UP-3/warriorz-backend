@@ -52,6 +52,17 @@ export const tripUpdateValidateSchema = Joi.object({
   accommodationID: Joi.number().integer(),
 });
 
+export const tripIDValidateSchema = Joi.object({
+  trip_id: Joi.number().integer(),
+});
+
+export const requestQueryValidateSchema = Joi.object({
+  page :Joi.number().integer(),
+  limit :Joi.number().integer(),
+  status: Joi.string(),
+});
+
+
 export const profileValidateSchema = Joi.object({
   firstname: Joi.string()
     .min(3)
@@ -83,4 +94,3 @@ export const profileValidateSchema = Joi.object({
   emailNotification: Joi.boolean(),
   photoUrl: Joi.string().uri(),
 });
-

@@ -2,11 +2,10 @@ import chai, { expect } from 'chai';
 import { describe, it } from 'mocha';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
-import jwt from 'jsonwebtoken';
 import app from '../../app';
 import trip from '../fixtures/tripData';
-
 import UserService from '../../services/userService';
+import { testTokens } from '../data/auth.tokens.sample';
 
 dotenv.config();
 
@@ -14,25 +13,14 @@ chai.should();
 chai.use(chaiHttp);
 
 describe('===== test create one way trip request =====', () => {
-  let tokenWithManager = null;
-
   // -------------------------------------
   // Hooks: https://mochajs.org/#hooks
   // -------------------------------------
 
   before(async () => {
-    // Get user with a line manager
-    const userWithManager = await UserService.findByEmail({
-      email: 'firaduk@yahoo.com',
-    });
-    // Encode token for the user
-    tokenWithManager = jwt.sign(
-      userWithManager.dataValues,
-      process.env.JWT_KEY,
-      {
-        expiresIn: '1h',
-      },
-    );
+    await UserService.updateAtt({token: testTokens.superAdmin}, { email: 'admin@example.com' });
+    await UserService.updateAtt({token: testTokens.requester}, { email: 'firaduk@yahoo.com' });
+    await UserService.updateAtt({token: testTokens.manager}, { email: 'ndoliOg@gmail.com' });
   });
 
   // -------------------------------------
@@ -43,7 +31,7 @@ describe('===== test create one way trip request =====', () => {
     chai
       .request(app)
       .post('/api/v1/trips')
-      .set('Authorization', tokenWithManager)
+      .set('Authorization', testTokens.requester)
       .send(trip[0])
       .end((err, res) => {
         expect(res.statusCode).to.equal(200);
@@ -64,7 +52,7 @@ describe('===== test create one way trip request =====', () => {
     chai
       .request(app)
       .post('/api/v1/trips')
-      .set('Authorization', tokenWithManager)
+      .set('Authorization', testTokens.requester)
       .send(trip[1])
       .end((err, res) => {
         expect(res.statusCode).to.equal(404);
@@ -89,7 +77,7 @@ describe('===== test create one way trip request =====', () => {
     chai
       .request(app)
       .post('/api/v1/trips')
-      .set('Authorization', tokenWithManager)
+      .set('Authorization', testTokens.requester)
       .send(trip[5])
       .end((err, res) => {
         expect(res.statusCode).to.equal(404);
@@ -114,7 +102,7 @@ describe('===== test create one way trip request =====', () => {
     chai
       .request(app)
       .post('/api/v1/trips')
-      .set('Authorization', tokenWithManager)
+      .set('Authorization', testTokens.requester)
       .send(trip[2])
       .end((err, res) => {
         expect(res.statusCode).to.equal(400);
@@ -132,7 +120,7 @@ describe('===== test create one way trip request =====', () => {
     chai
       .request(app)
       .post('/api/v1/trips')
-      .set('Authorization', tokenWithManager)
+      .set('Authorization', testTokens.requester)
       .send(trip[3])
       .end((err, res) => {
         expect(res.statusCode).to.equal(400);
@@ -150,11 +138,29 @@ describe('===== test create one way trip request =====', () => {
       });
   });
 
+  it('Should not create Return Trip request: Because Origin and Destination can not be the same.', (done) => {
+    chai
+      .request(app)
+      .post('/api/v1/trips')
+      .send(trip[8])
+      .set('Authorization', testTokens.requester)
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(400);
+        expect(res.type).to.equal('application/json');
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('message');
+
+        expect(res.body.status).to.equal(400);
+        expect(res.body.message).to.equal('Origin and Destination can not be the same.');
+        done();
+      });
+  });
+
   it('Should not create trip request: Because There is, Incorrect use of special characters', (done) => {
     chai
       .request(app)
       .post('/api/v1/trips')
-      .set('Authorization', tokenWithManager)
+      .set('Authorization', testTokens.requester)
       .send(trip[4])
       .end((err, res) => {
         expect(res.statusCode).to.equal(400);
@@ -174,7 +180,7 @@ describe('===== test create one way trip request =====', () => {
     chai
       .request(app)
       .post('/api/v1/trips')
-      .set('Authorization', tokenWithManager)
+      .set('Authorization', testTokens.requester)
       .send(trip[6])
       .end((err, res) => {
         expect(res.statusCode).to.equal(200);
@@ -195,7 +201,7 @@ describe('===== test create one way trip request =====', () => {
     chai
       .request(app)
       .post('/api/v1/trips')
-      .set('Authorization', tokenWithManager)
+      .set('Authorization', testTokens.requester)
       .send(trip[7])
       .end((err, res) => {
         expect(res.statusCode).to.equal(400);

@@ -1,5 +1,7 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
+
+dotenv.config();
 
 export async function up(queryInterface) {
   return queryInterface.bulkInsert(
@@ -9,11 +11,11 @@ export async function up(queryInterface) {
         firstname: 'IRADUKUNDA',
         lastname: 'Fiacre',
         email: 'firaduk@yahoo.com',
-        password:
-          '$2b$10$qToxNQmDVi28Rrj8gwFhYOI0xIe5mFNOAkKQ7vkTJrDD63v7nunue',
+        password:'$2b$10$qToxNQmDVi28Rrj8gwFhYOI0xIe5mFNOAkKQ7vkTJrDD63v7nunue',
         bio: 'fullstack magician',
         role: 'Requester',
         isVerified: true,
+        token: process.env.PASSING_TOKEN,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -21,11 +23,11 @@ export async function up(queryInterface) {
         firstname: 'NDOLI',
         lastname: 'Jack',
         email: 'ndoliOg@gmail.com',
-        password:
-          '$2b$10$qToxNQmDVi28Rrj8gwFhYOI0xIe5mFNOAkKQ7vkTJrDD63v7nunue',
+        password:'$2b$10$qToxNQmDVi28Rrj8gwFhYOI0xIe5mFNOAkKQ7vkTJrDD63v7nunue',
         bio: 'Onatracom worker',
         role: 'Manager',
         isVerified: true,
+        token: process.env.MANAGER_TOKEN,
         createdAt: new Date(),
         updatedAt: new Date(),
       },

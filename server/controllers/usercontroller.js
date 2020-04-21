@@ -49,7 +49,6 @@ class User {
       id: userGot.id,
       email: userGot.email,
       role: userGot.role,
-      verify_token: token,
     };
     util.setSuccess(201, message, data);
     return util.send(res);
@@ -128,6 +127,7 @@ class User {
     const message = 'You have signed in successfully';
 
     util.setSuccess(200, message, data);
+    return util.send(res);
   }
 
   static async Oauth(req,res){

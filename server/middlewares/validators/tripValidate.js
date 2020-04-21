@@ -1,6 +1,11 @@
 /* eslint-disable consistent-return */
 import dotenv from 'dotenv';
-import { tripValidateSchema,tripUpdateValidateSchema } from '../../helpers/validateSchema';
+import { 
+         tripValidateSchema,
+         tripUpdateValidateSchema,
+         tripIDValidateSchema,
+         requestQueryValidateSchema,
+         } from '../../helpers/validateSchema';
 import cityService from '../../services/cityService';
 import Util from '../../helpers/util';
 import { errorLogger }from '../../helpers/loggerHandle';
@@ -94,5 +99,62 @@ class TripValidations{
     
     next(); 
   };
+
+  static async requestQueryValidation (req,res,next) {
+    const { error } = requestQueryValidateSchema.validate(req.query);
+      if(error){
+        const Error = error.details[0].message.replace('/', '').replace(/"/g, '');
+        errorLogger(req, 400, Error);
+        util.setError(400, Error);
+        return util.send(res);
+      }
+
+      if(req.query.status){
+        if(req.query.status !== 'accepted' && req.query.status !=='pending' && req.query.status !== 'rejected'){
+          const Error = 'Incorrect status used.';
+          errorLogger(req, 400, Error);
+          util.setError(400, Error);
+          return util.send(res);
+        }
+      }
+
+      next();
+  };
+
+ static async tripIdValidation (req,res,next) {
+    const { error } = tripIDValidateSchema.validate({
+      trip_id:req.params.trip_id, 
+      });
+      if(error){
+        const Error = error.details[0].message.replace('/', '').replace(/"/g, '');
+        errorLogger(req, 400, Error);
+        util.setError(400, Error);
+        return util.send(res);
+      }
+      next();
+  };
+
+  static async userTripsSorting(req,_res,next){
+      if(req.query.status){
+      req.tripSortingData = {
+        user_id: req.userData.id, 
+        status: req.query.status,
+      };
+      return next();
+      
+      }
+      req.tripSortingData = { user_id: req.userData.id };
+      next();
+  }
+
+  static async managerTripsSorting(req,_res,next){
+      if(req.query.status){  
+        req.tripSortingData = { line_manager_id: req.userData.id, status: req.query.status};
+        return next();
+      };
+      
+      req.tripSortingData = { line_manager_id: req.userData.id };
+      return next();
+  }
 }
 export default TripValidations;
