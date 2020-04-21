@@ -32,6 +32,10 @@ class UserService {
     });
   }
 
+  static getUsers() {
+    return users.findAll();
+  }
+
   /**
    * Find a User in storage using login credentials.
    * @param {*} prop HTTP request
@@ -40,6 +44,12 @@ class UserService {
   static findByEmail(prop) {
     return users.findOne({
       where: prop,
+    });
+  }
+
+  static findById(modelId) {
+    return users.findOne({
+      where: { id: modelId },
     });
   }
 }

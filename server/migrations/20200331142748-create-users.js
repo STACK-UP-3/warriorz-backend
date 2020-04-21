@@ -27,7 +27,7 @@ export function up(queryInterface, Sequelize) {
     },
     role: {
       type: Sequelize.STRING,
-      defaultValue: 'user',
+      defaultValue: 'Requester',
     },
     isVerified: {
       type: Sequelize.BOOLEAN,
@@ -39,7 +39,7 @@ export function up(queryInterface, Sequelize) {
     facebookId: {
       type: Sequelize.INTEGER,
     },
-    token:{
+    token: {
       type: Sequelize.TEXT,
     },
     createdAt: {

@@ -7,10 +7,9 @@ import userService from '../services/userService';
 import sendEmail from '../services/email.create';
 import emailTemplate from '../services/templates/verMessage';
 import Util from '../helpers/util';
-import photoService from '../services/photoService'
+import photoService from '../services/photoService';
 import { encode, decode } from '../helpers/resetEncode';
 import { infoLogger } from '../helpers/loggerHandle';
-
 
 const util = new Util();
 
@@ -48,6 +47,8 @@ class User {
     const data = {
       id: userGot.id,
       email: userGot.email,
+      role: userGot.role,
+      verify_token: token,
     };
     util.setSuccess(201, message, data);
     return util.send(res);
@@ -103,15 +104,17 @@ class User {
     const userInfo = {
       firstName: userRecord.dataValues.firstname,
       lastName: userRecord.dataValues.lastname,
+      fullName: `${userRecord.dataValues.firstname} ${userRecord.dataValues.lastname}`,
       email: userRecord.dataValues.email,
       isVerified: userRecord.dataValues.isVerified,
       id: userRecord.dataValues.id,
+      role: userRecord.dataValues.role,
     };
 
     const accessToken = jwt.sign(userInfo, process.env.JWT_KEY, {
       expiresIn: '4h',
     });
-    
+
     await userService.updateAtt({ token: accessToken }, { id: userInfo.id });
     const data = {
       access_token: accessToken,
@@ -129,9 +132,11 @@ class User {
     if (req.body.photoUrl) {
       const userPhotoUrl = await photoService.findByProp({ ownerId: userId });
       if (userPhotoUrl[0]) {
-        await photoService.updatePhoto({ url: req.body.photoUrl }, { ownerId: userId });
-      }
-      else {
+        await photoService.updatePhoto(
+          { url: req.body.photoUrl },
+          { ownerId: userId },
+        );
+      } else {
         const newPhoto = {
           ownerId: userId,
           type: 'user',
@@ -167,10 +172,31 @@ class User {
       appNotification: userData[0].dataValues.appNotification,
       emailNotification: userData[0].dataValues.emailNotification,
       photoUrl,
-    }
+    };
     const message = 'User profile found';
     infoLogger(req, 200, message);
     util.setSuccess(200, message, profile);
+    return util.send(res);
+  }
+
+  static async update(req, res) {
+    // Get required data from request
+    const { id } = req.params;
+    const { role } = req.body;
+    // Update a single User in storage
+    await userService.updateAtt({ role }, { id });
+    // Return API response
+    util.setSuccess(200, "User's role updated successfully");
+    return util.send(res);
+  }
+
+  static async read(req, res) {
+    // Get all Role instances from database storage
+    const queryResult = await userService.getUsers();
+    // Setup data object to be returned
+    const data = queryResult.map((item) => item.dataValues);
+    // Return API response
+    util.setSuccess(200, 'Users retrieved successfully', data);
     return util.send(res);
   }
 }
