@@ -12,3 +12,5 @@ package-lock.json
 
 # Ignore Editor config file
 .editorconfig
+logs
+request.rest

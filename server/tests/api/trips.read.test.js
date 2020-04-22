@@ -271,10 +271,10 @@ describe('========= Testing View Specific Trips API: READ a specific Trip: \n', 
       });
   });
 
-  it('Should not show specific trip : Trip is not found in the database:', (done) => {
+  it('Should not show specific trip : Trip is not found in the database', (done) => {
     chai
       .request(app)
-      .get('/api/v1/trips/10')
+      .get('/api/v1/trips/198')
       .set('Authorization', testTokens.requester)
       .end((err, res) => {
         expect(res.statusCode).to.equal(404);
