@@ -1,8 +1,13 @@
 import 'dotenv/config';
 import express from 'express';
 import morgan from 'morgan';
+import passport from 'passport'
+import cookieSession from 'cookie-session';
+import dotenv from 'dotenv'
 import swaggerRouter from './swagger/index';
 import router from './routes/index';
+
+dotenv.config()
 
 const app = express();
 
@@ -10,6 +15,14 @@ const app = express();
  * API MIDDLEWARE
  * -------------------------------------------------------------------
  */
+app.use(cookieSession({
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: [process.env.COOKIE_KEY],
+}))
+
+app.use(passport.initialize())
+app.use(passport.session())
+
 app.use('/api-docs', swaggerRouter);
 app.use(morgan('dev'));
 
