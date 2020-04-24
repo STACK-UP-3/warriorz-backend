@@ -1,9 +1,11 @@
 import express from 'express';
+
 import user from '../../../controllers/usercontroller';
 import validate from '../../../middlewares/validators/validate';
 import allow from '../../../middlewares/roleAuthorisation';
 import { authorizationCheck } from '../../../middlewares/authorization';
 import passport from '../../../config/passport';
+import AuthValidator from '../../../middlewares/validators/AuthValidator';
 
 const router = express.Router();
 
@@ -26,7 +28,7 @@ router.post(
 /**
  * Restricted routes
  */
-router.get('/', authorizationCheck,allow('Super Administrator'), user.read);
+router.get('/', authorizationCheck, allow('Super Administrator'), user.read);
 router.patch(
   '/:id',
   authorizationCheck,
@@ -34,15 +36,50 @@ router.patch(
   validate.verifyResourceExists,
   user.update,
 );
-router.get('/verify/:token',validate.verificationValidation,user.accountVerification);
-router.post('/signin',validate.validateSignInRequestData,validate.verifyUser,user.signIn);
-router.get('/verify/:token', validate.verificationValidation,user.accountVerification);
+router.get(
+  '/verify/:token',
+  validate.verificationValidation,
+  user.accountVerification,
+);
+router.post(
+  '/signin',
+  validate.validateSignInRequestData,
+  validate.verifyUser,
+  user.signIn,
+);
+router.get(
+  '/verify/:token',
+  validate.verificationValidation,
+  user.accountVerification,
+);
 
-router.get("/auth/google",passport.authenticate('google',{scope:['profile','email']}));
-router.get("/auth/google/redirect",passport.authenticate('google'),user.Oauth)
+router.get(
+  '/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] }),
+);
+router.get(
+  '/auth/google/redirect',
+  passport.authenticate('google'),
+  user.Oauth,
+);
 
-router.get("/auth/facebook",passport.authenticate('facebook',{scope:['email']}));
-router.get("/auth/facebook/redirect",passport.authenticate('facebook'),user.Oauth)
+router.get(
+  '/auth/facebook',
+  passport.authenticate('facebook', { scope: ['email'] }),
+);
+router.get(
+  '/auth/facebook/redirect',
+  passport.authenticate('facebook'),
+  user.Oauth,
+);
 
+// https://stackoverflow.com/questions/3521290/logout-get-or-post
+router.post(
+  '/logout',
+  AuthValidator.requestTokenExists,
+  AuthValidator.verifyToken,
+  AuthValidator.userTokenExists,
+  user.signOut,
+);
 
 export default router;
