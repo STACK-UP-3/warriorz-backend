@@ -2,7 +2,6 @@ import chai, { expect } from 'chai';
 import { describe, it } from 'mocha';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
-import jwt from 'jsonwebtoken';
 import app from '../../app';
 import updateData from '../fixtures/updateOpenTripData';
 
@@ -15,44 +14,15 @@ chai.should();
 chai.use(chaiHttp);
 
 describe('===== Test Update Open Trip Request =====', () => {
-  let existingTokenWithManager = null;
-  let existingTokenNoManager = null;
-  let tokenUserClosedTrip = null;
 
   // -------------------------------------
   // Hooks: https://mochajs.org/#hooks
   // -------------------------------------
 
   before(async () => {
-    // Get user with a line manager
-    const userWithManager = await UserService.findByEmail({
-      email: 'firaduk@yahoo.com',
-    });
-    userWithManager.dataValues.fullName = `${userWithManager.dataValues.firstname} ${userWithManager.dataValues.lastname}`;
-    // Encode token for the user
-    existingTokenWithManager = userWithManager.dataValues.token;
-
-    // Get user missing a line manager
-    const userNoManager = await UserService.findByEmail({
-      email: 'ndoliOg@gmail.com',
-    });
-    // Encode token for the user
-    existingTokenNoManager = userNoManager.dataValues.token;
-
-    const userWithClosedTrip = await UserService.findById(4);
-    // Encode token for the user
-    tokenUserClosedTrip = jwt.sign(
-      userWithClosedTrip.dataValues,
-      process.env.JWT_KEY,
-      {
-        expiresIn: '1h',
-      },
-    );
-    // Save token to user record
-    await UserService.updateAtt(
-      { token: tokenUserClosedTrip },
-      { id: userWithClosedTrip.dataValues.id },
-    );
+    await UserService.updateAtt({token: testTokens.superAdmin}, { email: 'admin@example.com' });
+    await UserService.updateAtt({token: testTokens.requester}, { email: 'firaduk@yahoo.com' });
+    await UserService.updateAtt({token: testTokens.manager}, { email: 'ndoliOg@gmail.com' });
   });
 
   // -------------------------------------
@@ -63,7 +33,7 @@ describe('===== Test Update Open Trip Request =====', () => {
     chai
       .request(app)
       .patch('/api/v1/trips/2')
-      .set('Authorization', existingTokenWithManager)
+      .set('Authorization', testTokens.requester)
       .send(updateData[0])
       .end((err, res) => {
         expect(res.statusCode).to.equal(200);
@@ -93,7 +63,7 @@ describe('===== Test Update Open Trip Request =====', () => {
     chai
       .request(app)
       .patch('/api/v1/trips/5')
-      .set('Authorization', existingTokenWithManager)
+      .set('Authorization', testTokens.requester)
       .send(updateData[0])
       .end((err, res) => {
         expect(res.statusCode).to.equal(200);
@@ -123,7 +93,7 @@ describe('===== Test Update Open Trip Request =====', () => {
     chai
       .request(app)
       .patch('/api/v1/trips/xxxx')
-      .set('Authorization', existingTokenWithManager)
+      .set('Authorization', testTokens.requester)
       .send(updateData[0])
       .end((err, res) => {
         expect(res.statusCode).to.equal(400);
@@ -141,7 +111,7 @@ describe('===== Test Update Open Trip Request =====', () => {
     chai
       .request(app)
       .patch('/api/v1/trips/100')
-      .set('Authorization', existingTokenWithManager)
+      .set('Authorization', testTokens.requester)
       .send(updateData[0])
       .end((err, res) => {
         expect(res.statusCode).to.equal(404);
@@ -161,7 +131,7 @@ describe('===== Test Update Open Trip Request =====', () => {
     chai
       .request(app)
       .patch('/api/v1/trips/3')
-      .set('Authorization', existingTokenWithManager)
+      .set('Authorization', testTokens.requester)
       .send(updateData[1])
       .end((err, res) => {
         expect(res.statusCode).to.equal(404);
@@ -186,7 +156,7 @@ describe('===== Test Update Open Trip Request =====', () => {
     chai
       .request(app)
       .patch('/api/v1/trips/3')
-      .set('Authorization', existingTokenWithManager)
+      .set('Authorization', testTokens.requester)
       .send(updateData[2])
       .end((err, res) => {
         expect(res.statusCode).to.equal(404);
@@ -211,7 +181,7 @@ describe('===== Test Update Open Trip Request =====', () => {
     chai
       .request(app)
       .patch('/api/v1/trips/3')
-      .set('Authorization', existingTokenNoManager)
+      .set('Authorization', testTokens.manager)
       .send(updateData[0])
       .end((err, res) => {
         expect(res.statusCode).to.equal(401);
@@ -231,7 +201,7 @@ describe('===== Test Update Open Trip Request =====', () => {
     chai
       .request(app)
       .patch('/api/v1/trips/1')
-      .set('Authorization', tokenUserClosedTrip)
+      .set('Authorization', testTokens.manager)
       .send(updateData[0])
       .end((err, res) => {
         expect(res.statusCode).to.equal(400);
@@ -249,7 +219,7 @@ describe('===== Test Update Open Trip Request =====', () => {
     chai
       .request(app)
       .patch('/api/v1/trips/2')
-      .set('Authorization', existingTokenWithManager)
+      .set('Authorization', testTokens.requester)
       .send(updateData[5])
       .end((err, res) => {
         expect(res.statusCode).to.equal(400);
@@ -261,25 +231,6 @@ describe('===== Test Update Open Trip Request =====', () => {
         expect(res.body.message).to.equal(
           'Return date can not be less than Travel date',
         );
-        done();
-      });
-  });
-
-  // Trip exists, but User does not have valid role/permissions
-  it('should return error for invalid User role', (done) => {
-    chai
-      .request(app)
-      .patch('/api/v1/trips/2')
-      .set('Authorization', testTokens.invalidRole)
-      .send(updateData[0])
-      .end((err, res) => {
-        expect(res.statusCode).to.equal(403);
-        expect(res.type).to.equal('application/json');
-        expect(res.body).to.have.property('status');
-        expect(res.body).to.have.property('message');
-
-        expect(res.body.status).to.equal(403);
-        expect(res.body.message).to.equal('Forbidden route');
         done();
       });
   });

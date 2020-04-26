@@ -23,7 +23,7 @@ describe('\n Testing Route (User Sign-In): POST /api/v1/users/signin \n', () => 
     firstname: 'Test',
     lastname: 'User',
     email: 'test@example.com',
-    passwordPlain: 'test',
+    passwordPlain: 'testpasword',
     bio: 'I am an example user account with a verified account',
   };
 
@@ -83,7 +83,6 @@ describe('\n Testing Route (User Sign-In): POST /api/v1/users/signin \n', () => 
         });
         done();
       });
-      done();
   });
 
   // User not verified

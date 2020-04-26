@@ -16,6 +16,7 @@ export default (sequelize, DataTypes) => {
       },
       password: {
         type: DataTypes.STRING,
+        allowNull: true,
       },
       bio: {
         type: DataTypes.STRING,
@@ -29,10 +30,10 @@ export default (sequelize, DataTypes) => {
         defaultValue: false,
       },
       googleId: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
       },
       facebookId: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
       },
       country: { type: DataTypes.STRING, allowNull: true },
       phone: { type: DataTypes.STRING, allowNull: true },

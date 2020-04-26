@@ -5,7 +5,7 @@ dotenv.config();
 export function up(queryInterface) {
   return queryInterface.bulkInsert('triprequests', [{
     trip_id: 1,
-    user_id: 4,
+    user_id: 2,
     line_manager_id: 2,
     status: 'accepted',
     createdAt: new Date(),

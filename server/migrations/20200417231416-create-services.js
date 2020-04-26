@@ -1,36 +1,38 @@
+
 export function up(queryInterface, Sequelize) {
-  return queryInterface.createTable('photos', {
+  return queryInterface.createTable('services', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-    url: {
-      type: Sequelize.STRING,
-    },
-    ownerId: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-    },
-    type: {
+    name: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    details: {
+    description: {
       type: Sequelize.STRING,
       allowNull: true,
     },
-    createdAt: {
-      type: Sequelize.DATEONLY,
+    cost: {
+      type: Sequelize.STRING,
       allowNull: false,
     },
-    updatedAt: {
-      type: Sequelize.DATEONLY,
+    accommodation_id: {
+      type: Sequelize.INTEGER,
       allowNull: false,
+    },
+    createdAt: {
+      allowNull: false,
+      type: Sequelize.DATEONLY,
+    },
+    updatedAt: {
+      allowNull: false,
+      type: Sequelize.DATEONLY,
     },
   });
 }
 export function down(queryInterface) {
-  return queryInterface.dropTable('photos');
+  return queryInterface.dropTable('services');
 }
