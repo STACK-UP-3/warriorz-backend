@@ -6,6 +6,7 @@ import cookieSession from 'cookie-session';
 import dotenv from 'dotenv'
 import swaggerRouter from './swagger/index';
 import router from './routes/index';
+import { io } from './helpers/socketConnection';
 
 dotenv.config()
 
@@ -37,6 +38,11 @@ app.use(express.urlencoded({ extended: true }));
  * COMMON API ROUTES & END-POINTS
  * -------------------------------------------------------------------
  */
+app.use((req,res,next)=>{
+    req.io = io;
+    next();
+  });
+  
 app.use('/', router);
 
 export default app;

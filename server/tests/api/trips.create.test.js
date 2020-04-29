@@ -18,9 +18,13 @@ describe('===== test create one way trip request =====', () => {
   // -------------------------------------
 
   before(async () => {
+    await UserService.updateAtt({emailNotification: false}, { email: 'xxxxx@example.com' });
+    await UserService.updateAtt({emailNotification: false}, { email: 'managerial@example.com' });
+
     await UserService.updateAtt({token: testTokens.superAdmin}, { email: 'admin@example.com' });
     await UserService.updateAtt({token: testTokens.requester}, { email: 'firaduk@yahoo.com' });
     await UserService.updateAtt({token: testTokens.manager}, { email: 'ndoliOg@gmail.com' });
+    await UserService.updateAtt({token: testTokens.userFalseNotification}, { email: 'xxxxx@example.com' });
   });
 
   // -------------------------------------
@@ -32,6 +36,27 @@ describe('===== test create one way trip request =====', () => {
       .request(app)
       .post('/api/v1/trips')
       .set('Authorization', testTokens.requester)
+      .send(trip[0])
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(200);
+        expect(res.type).to.equal('application/json');
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('message');
+        expect(res.body).to.have.property('data');
+
+        expect(res).to.have.status(200);
+        expect(res.body.message).to.equal(
+          'A one-way-trip was registered successfully.',
+        );
+        done();
+      });
+  });
+
+  it('Should create a one way trip request of a user with no notifications allowed', (done) => {
+    chai
+      .request(app)
+      .post('/api/v1/trips')
+      .set('Authorization', testTokens.userFalseNotification)
       .send(trip[0])
       .end((err, res) => {
         expect(res.statusCode).to.equal(200);

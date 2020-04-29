@@ -5,6 +5,7 @@ import {
   accommodationValidateSchema,
   queryParamsValidateSchema,
   idValidateSchema,
+  bookingDataValidateSchema,
 } from '../../helpers/validateSchema';
 import Util from '../../helpers/util';
 import { errorLogger } from '../../helpers/loggerHandle';
@@ -145,6 +146,45 @@ export default class accommodationValidation {
       const messege = `The ID of a record must be an integer`;
       util.setError(400, messege);
       errorLogger(req, 400, messege);
+      return util.send(res);
+    }
+    next();
+  }
+
+  static async validateBookingData(req, res, next) {
+    if (Object.keys(req.body).length === 0) {
+      const Error = 'The data can not be empty!';
+      errorLogger(req, 400, Error);
+      util.setError(400, Error);
+      return util.send(res);
+    }
+    const bookingInfo = {
+      accommodationId: req.body.accommodationId,
+      roomId: req.body.roomId,
+      tripId: req.body.tripId,
+      checkInDate: req.body.checkInDate,
+      checkOutDate: req.body.checkOutDate,
+    };
+
+    const { error } = bookingDataValidateSchema.validate(bookingInfo);
+    if (error) {
+      const Error = error.details[0].message.replace('/', '').replace(/"/g, '');
+      errorLogger(req, 400, Error);
+      util.setError(400, Error);
+      return util.send(res);
+    }
+
+    req.bookingInfo = bookingInfo;
+    next();
+  }
+
+  static async validateDates(req, res, next) {
+    const { checkInDate } = req.bookingInfo;
+    const { checkOutDate } = req.bookingInfo;
+    if (checkOutDate <= checkInDate) {
+      const message = `The checkin date ${checkInDate} can not be later then checkout date ${checkOutDate}`;
+      util.setError(400, message);
+      errorLogger(req, 400, message);
       return util.send(res);
     }
     next();

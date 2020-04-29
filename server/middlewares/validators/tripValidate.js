@@ -124,6 +124,7 @@ class TripValidations{
  static async tripIdValidation (req,res,next) {
     const { error } = tripIDValidateSchema.validate({
       trip_id:req.params.trip_id, 
+      notification_id : req.params.notification_id,
       });
       if(error){
         const Error = error.details[0].message.replace('/', '').replace(/"/g, '');

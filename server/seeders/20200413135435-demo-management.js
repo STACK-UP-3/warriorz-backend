@@ -8,7 +8,14 @@ export function up(queryInterface) {
     user_id: 1,
     createdAt: new Date(),
     updatedAt: new Date(),
-  }], {});
+  },
+  {
+    line_manager_id: 5,
+    user_id: 9,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+], {});
 }
 export function down(queryInterface) {
   return queryInterface.bulkDelete('usermanagements', null, {});

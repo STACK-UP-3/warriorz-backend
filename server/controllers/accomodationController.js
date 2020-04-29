@@ -18,6 +18,7 @@ class Accommodations {
       status: req.body.status,
       cost: req.body.cost,
       user_id: req.userData.id,
+      availableRooms: req.body.rooms.length,
     };
 
     const createdAccommodation = await accommodationHandler.createAccommodation(
@@ -70,6 +71,15 @@ class Accommodations {
     );
     const message = 'Accommodation retrieved successfully';
     util.setSuccess(200, message, detailedAccommodation);
+    return util.send(res);
+  }
+
+  static async bookAccommodation(req, res) {
+    const bookedAccommdationInfo = await accommodationHandler.bookAccommodation(
+      req.bookingInfo,
+    );
+    const message = 'The Accommodation has been booked successfuly';
+    util.setSuccess(201, message, bookedAccommdationInfo);
     return util.send(res);
   }
 }

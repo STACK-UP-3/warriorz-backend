@@ -29,6 +29,12 @@ const tokenDumbData = [
     email: 'travel@example.com',
     role: 'Travel Administrator',
   },
+  {
+    id: 9,
+    fullName: 'XXXXX YYYYY',
+    email: 'xxxxx@example.com',
+    role: 'Requester',
+  },
 ];
 
 export default tokenDumbData;
