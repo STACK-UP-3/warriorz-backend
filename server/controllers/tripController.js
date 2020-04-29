@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import tripService from '../services/tripServices';
 import reqService from '../services/tripReqService';
 import cityService from '../services/cityService';
+import pagination from '../helpers/paginationHelper';
 import Util from '../helpers/util';
 import { errorLogger }from '../helpers/loggerHandle';
 
@@ -103,6 +104,33 @@ class TripController {
     }
     
 }
+
+static async viewAllTrips(req,res){
+  try{
+    const userSortedTrips = await reqService.findByProp(req.tripSortingData);
+    const tripRequestsData = userSortedTrips.reverse();
+
+    const data = pagination(req.query.page,req.query.limit,tripRequestsData,res);
+
+    const message = 'All The Trips are: ';  
+    util.setSuccess(200, message, data);
+    return util.send(res);
+
+  }catch(error){
+      const Error = `Internal Server Error + ${error}`;
+      return errorLogger(req, 500, Error);
+    }
+}
+
+static async viewSpecificTrip(req,res){
+
+    const data = req.specificTripData;
+    const message = 'Here is the trip information that you requested: ';
+    
+    util.setSuccess(200, message, data);
+    return util.send(res);
+
+  }
 }
 
 export default TripController;

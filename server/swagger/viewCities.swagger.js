@@ -16,7 +16,7 @@
  * 
  *     responses:
  *       '200':
- *             description: Trip successfully registered
+ *             description: Cities successfully retrieved
  *       '401':
  *             description: Unauthorised Access.
  *       '404':

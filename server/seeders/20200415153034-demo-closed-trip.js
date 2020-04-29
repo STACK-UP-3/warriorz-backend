@@ -4,7 +4,7 @@ dotenv.config();
 
 export function up(queryInterface) {
   return queryInterface.bulkInsert('trips', [{
-    user_id: 4,
+    user_id: 2,
     origin: 'Kampala',
     destination: 'Kigali',
     dateOfTravel: '2020-10-10',

@@ -6,6 +6,7 @@ import app from '../../app';
 import { testRoles } from '../data/api.roles.sample';
 import { testTokens } from '../data/auth.tokens.sample';
 import RoleService from '../../services/RoleService';
+import UserService from '../../services/userService';
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -23,6 +24,10 @@ describe('*** Testing Roles API - UPDATE a single role \n', () => {
       name: 'Unique Role',
       permissions: 'create-trip,edit-trip',
     });
+
+    await UserService.updateAtt({token: testTokens.superAdmin}, { email: 'admin@example.com' });
+    await UserService.updateAtt({token: testTokens.requester}, { email: 'firaduk@yahoo.com' });
+  
   });
   after(async () => {});
 
@@ -56,13 +61,13 @@ describe('*** Testing Roles API - UPDATE a single role \n', () => {
       .patch(`/api/v1/roles/${queryResult.dataValues.id}`)
       .send({ name: 'Updated Role' })
       .end((err, res) => {
-        expect(res.statusCode).to.equal(401);
+        expect(res.statusCode).to.equal(404);
         expect(res.type).to.equal('application/json');
         expect(res.body).to.have.property('status');
         expect(res.body).to.have.property('message');
 
-        expect(res.body.status).to.equal(401);
-        expect(res.body.message).to.equal('Token must be provided');
+        expect(res.body.status).to.equal(404);
+        expect(res.body.message).to.equal('No token provided or Token expired');
         done();
       });
   });
@@ -72,7 +77,7 @@ describe('*** Testing Roles API - UPDATE a single role \n', () => {
     chai
       .request(app)
       .patch(`/api/v1/roles/${queryResult.dataValues.id}`)
-      .set('Authorization', testTokens.invalidRole)
+      .set('Authorization', testTokens.requester)
       .send({ name: 'Updated Role' })
       .end((err, res) => {
         expect(res.statusCode).to.equal(403);
@@ -81,7 +86,7 @@ describe('*** Testing Roles API - UPDATE a single role \n', () => {
         expect(res.body).to.have.property('message');
 
         expect(res.body.status).to.equal(403);
-        expect(res.body.message).to.equal('Forbidden route');
+        expect(res.body.message).to.equal('Forbidden route: Dear user you are not allowed to carry out this activity.');
         done();
       });
   });

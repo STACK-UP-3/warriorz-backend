@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
-import authController from '../controllers/usercontroller';
+import authController from '../../controllers/usercontroller';
 
 const { expect } = chai;
 

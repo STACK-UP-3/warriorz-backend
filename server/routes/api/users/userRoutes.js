@@ -1,8 +1,9 @@
 import express from 'express';
-import user from "../../../controllers/usercontroller";
-import validate from "../../../middlewares/validators/validate";
+import user from '../../../controllers/usercontroller';
+import validate from '../../../middlewares/validators/validate';
+import allow from '../../../middlewares/roleAuthorisation';
+import { authorizationCheck } from '../../../middlewares/authorization';
 import passport from '../../../config/passport';
-import allow from '../../../middlewares/authorisation'
 
 const router = express.Router();
 
@@ -25,9 +26,10 @@ router.post(
 /**
  * Restricted routes
  */
-router.get('/', allow('Super Administrator'), user.read);
+router.get('/', authorizationCheck,allow('Super Administrator'), user.read);
 router.patch(
   '/:id',
+  authorizationCheck,
   allow('Super Administrator'),
   validate.verifyResourceExists,
   user.update,
