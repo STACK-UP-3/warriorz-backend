@@ -23,11 +23,11 @@ testTokens.superAdmin = jwt.sign(tokenData[2], process.env.JWT_KEY, {
   expiresIn: '1h',
 });
 
-testTokens.supplier = jwt.sign(testUsers.supplier, process.env.JWT_KEY, {
+testTokens.supplier = jwt.sign(tokenData[3], process.env.JWT_KEY, {
   expiresIn: '1h',
 });
 
-testTokens.travelAdmin = jwt.sign(testUsers.travelAdmin, process.env.JWT_KEY, {
+testTokens.travelAdmin = jwt.sign(tokenData[4], process.env.JWT_KEY, {
   expiresIn: '1h',
 });
 

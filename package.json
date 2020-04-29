@@ -24,7 +24,6 @@
     "migration:undo": "babel-node node_modules/.bin/sequelize db:migrate:undo:all",
     "migration:undo-latest": "babel-node node_modules/.bin/sequelize db:migrate:undo",
     "migration:reset": "npm run migration:undo && npm run migration && npm run migration:seed",
-    "win:test": "npm run win:devtable && nyc --reporter=html --reporter=text mocha --require @babel/register ./server/tests/*.test.js --recursive ./server/tests/**/*.test.js --exit",
     "win:start:dev": "nodemon --exec babel-node ./server/index.js",
     "win:createTables": "npx sequelize-cli db:migrate",
     "win:drop": "npx sequelize-cli db:migrate:undo:all",

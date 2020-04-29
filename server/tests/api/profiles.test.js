@@ -63,7 +63,7 @@ before(async () => {
 });
 
 describe('=====test route /api/v1/profile - update profile info======', () => {
-  it('Should return 404 status code when token is not provided or expired', (done) => {
+  it('Should return 401 status code when token is not provided or expired', (done) => {
     chai
       .request(app)
       .patch('/api/v1/profile')
