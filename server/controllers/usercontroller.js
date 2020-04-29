@@ -119,8 +119,10 @@ class User {
       user: userInfo,
     };
 
-    util.setSuccess(200, 'You have signed in successfully', data);
-    return util.send(res);
+    const message = 'You have signed in successfully';
+
+    util.setSuccess(200, message, data);
+    return util.send(res)
   }
 
   static async Oauth(req, res) {

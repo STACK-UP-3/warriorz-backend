@@ -77,6 +77,13 @@ export default (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });
+
+    users.hasMany(models.comment,{
+      foreignKey:'author_id',
+      as:"user_comment",
+      onDelete:"CASCADE",
+      onUpdate:"CASCADE",
+    })
   };
   return users;
 };

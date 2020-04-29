@@ -6,6 +6,7 @@ package-lock.json
 .nyc_output
 .env
 .coveralls.yml
+request.rest
 
 # Ignore Prettier config file
 .prettierrc

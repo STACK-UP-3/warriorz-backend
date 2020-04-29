@@ -126,7 +126,7 @@ export const profileValidateSchema = Joi.object({
   photoUrl: Joi.string().uri(),
 });
 
-const imageValidateSchema = Joi.object().keys({
+export const imageValidateSchema = Joi.object().keys({
   url: Joi.string()
     .uri()
     .pattern(/\.(jpeg|jpg|png)$/)
@@ -137,7 +137,7 @@ const imageValidateSchema = Joi.object().keys({
     .pattern(/^[a-zA-Z0-9]/),
 });
 
-const serviceValidateSchema = Joi.object().keys({
+export const serviceValidateSchema = Joi.object().keys({
   name: Joi.string()
     .min(3)
     .max(300)
@@ -150,7 +150,7 @@ const serviceValidateSchema = Joi.object().keys({
     .pattern(/^[a-zA-Z0-9]/),
 });
 
-const roomValidateSchema = Joi.object().keys({
+export const roomValidateSchema = Joi.object().keys({
   name: Joi.string()
     .min(3)
     .max(100)
@@ -228,4 +228,8 @@ export const queryParamsValidateSchema = Joi.object({
 
 export const idValidateSchema = Joi.object({
   id: Joi.number().integer().required(),
+});
+
+export const Comment = Joi.object({
+  content: Joi.string().required().min(3).max(300).regex(/^[a-zA-Z][a-zA-Z\s]*$/),
 });

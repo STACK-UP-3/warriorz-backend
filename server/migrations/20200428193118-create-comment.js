@@ -1,38 +1,38 @@
-
 export function up(queryInterface, Sequelize) {
-  return queryInterface.createTable('triprequests', {
+  return queryInterface.createTable('comments', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-    trip_id: {
+    trip_request_id: {
       type:Sequelize.INTEGER,
       allowNull: false,
     },
-    user_id: {
-      type:Sequelize.INTEGER,
-      allowNull: false,
+    author_id: {
+      type: Sequelize.INTEGER,
+      allowNull:false,
     },
-    line_manager_id: {
-      type:Sequelize.INTEGER,
-      allowNull: false,
+    auxiliary_id: {
+      type: Sequelize.INTEGER,
+      allowNull:false,
     },
-    status:{
+    content:{
       type:Sequelize.STRING,
-      defaultValue: 'pending',
+      allowNull:false,
     },
     createdAt: {
-      allowNull: false,
       type: Sequelize.DATEONLY,
+      allowNull: false,
     },
     updatedAt: {
-      allowNull: false,
       type: Sequelize.DATEONLY,
+      allowNull: false,
     },
   });
 }
-export function down(queryInterface) {
-  return queryInterface.dropTable('triprequests');
+
+export function  down(queryInterface) {
+    return queryInterface.dropTable('comments');
 }
