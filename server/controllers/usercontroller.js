@@ -23,6 +23,7 @@ class User {
       email: req.body.email,
       password: await bcrypt.hash(req.body.password, 10),
       bio: req.body.bio,
+      role: 'Requester',
     };
 
     const inserter = await userService.createuser(newUser);
@@ -49,7 +50,6 @@ class User {
       id: userGot.id,
       email: userGot.email,
       role: userGot.role,
-      verify_token: token,
     };
     util.setSuccess(201, message, data);
     return util.send(res);
@@ -103,12 +103,9 @@ class User {
 
     // Create access token if user passes validation
     const userInfo = {
-      firstName: userRecord.dataValues.firstname,
-      lastName: userRecord.dataValues.lastname,
+      id: userRecord.dataValues.id,
       fullName: `${userRecord.dataValues.firstname} ${userRecord.dataValues.lastname}`,
       email: userRecord.dataValues.email,
-      isVerified: userRecord.dataValues.isVerified,
-      id: userRecord.dataValues.id,
       role: userRecord.dataValues.role,
     };
 
@@ -122,9 +119,7 @@ class User {
       user: userInfo,
     };
 
-    const message = 'You have signed in successfully';
-
-    util.setSuccess(200, message, data);
+    util.setSuccess(200, 'You have signed in successfully', data);
     return util.send(res);
   }
 
@@ -200,6 +195,19 @@ class User {
       TokenKey: token,
     };
     util.setSuccess(status, message, data);
+    return util.send(res);
+  }
+
+  static async signOut(req, res) {
+    // Get user from validated request
+    const userRecord = req.user;
+    // Remove token from user record
+    const queryResult = await userService.updateAtt(
+      { token: null },
+      { id: userRecord.id },
+    );
+    // Return API response
+    util.setSuccess(200, 'You have logged out successfully', queryResult[1]);
     return util.send(res);
   }
 

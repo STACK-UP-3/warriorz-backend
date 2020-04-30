@@ -63,21 +63,6 @@ class Accommodations {
     return util.send(res);
   }
 
-  static async getAccommodationsCreatedByUser(req, res) {
-    const accommodations = await accommodationHandler.getFormatedAccommodations(
-      req.accommodationsData,
-    );
-    const responseData = {
-      pageInformation: req.accommodationsData.pageInformation,
-      previousPage: req.accommodationsData.previousPage,
-      nextPage: req.accommodationsData.nextPage,
-      result: accommodations,
-    };
-    const message = 'Accommodations retrieved successfully';
-    util.setSuccess(200, message, responseData);
-    return util.send(res);
-  }
-
   static async getSpecificAccomDetails(req, res) {
     const { accommodation } = req;
     const detailedAccommodation = await accommodationHandler.formatAccommodationResponse(
@@ -85,21 +70,6 @@ class Accommodations {
     );
     const message = 'Accommodation retrieved successfully';
     util.setSuccess(200, message, detailedAccommodation);
-    return util.send(res);
-  }
-
-  static async getAccommodationsForRequester(req, res) {
-    const accommodations = await accommodationHandler.getFormatedAccommodations(
-      req.accommodationsData,
-    );
-    const responseData = {
-      pageInformation: req.accommodationsData.pageInformation,
-      previousPage: req.accommodationsData.previousPage,
-      nextPage: req.accommodationsData.nextPage,
-      result: accommodations,
-    };
-    const message = 'Accommodations retrieved successfully';
-    util.setSuccess(200, message, responseData);
     return util.send(res);
   }
 }

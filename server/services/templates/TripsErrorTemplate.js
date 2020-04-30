@@ -8,8 +8,15 @@ const util = new Util();
 dotenv.config();
 
 export const joiErrorsTemplate = (req,res,next,message)=>{
-    if (message) {
-      
+
+    if(req.body.origin === req.body.destination){
+      const Error = 'Origin and Destination can not be the same.';
+      errorLogger(req, 400, Error);
+      util.setError(400, Error);
+      return util.send(res);
+    }
+    
+    if (message) { 
     if (
       message.details[0].message
         .replace('/', '')

@@ -58,9 +58,9 @@
  *                          type: object
  *                          properties:
  *                              url:
- *                                  type: string   
+ *                                  type: string
  *                              details:
- *                                  type: string   
+ *                                  type: string
  *             images:
  *               type: array
  *               items:
@@ -95,7 +95,7 @@
  *     tags:
  *       - Accommodation
  *     name: swagger
- *     summary: This is used as the endpoint for getting all accommodation facilities in Barefoot Nomad [Only for Travel Administrator]
+ *     summary: This is used as the endpoint for getting all accommodation facilities in Barefoot Nomad [Only for Travel Administrator and SUpplier]
  *     produces:
  *       - application/json
  *     parameters:
@@ -116,12 +116,12 @@
 
 /**
  * @swagger
- * /api/v1/user/accommodations?page={page}&limit={limit}:
+ * /api/v1/accommodations?page={page}&limit={limit}&city={cityname}:
  *   get:
  *     tags:
  *       - Accommodation
  *     name: swagger
- *     summary: This is used as the endpoint for getting all accommodation facilities in Barefoot Nomad created by authenticated user
+ *     summary: This is used as the endpoint for getting all accommodation facilities in Barefoot Nomad [Only for Requester]
  *     produces:
  *       - application/json
  *     parameters:
@@ -135,61 +135,7 @@
  *       '200':
  *             description: Accommodatios retrieved
  *       '401':
- *              description: No token provided.
- *       '403':
- *              description: Unauthorized access.
- * */
-
-/**
- * @swagger
- * /api/v1/city/accommodations/{city}?page={page}&limit={limit}:
- *   get:
- *     tags:
- *       - Accommodation
- *     name: swagger
- *     summary: This is used as the endpoint for getting all accommodation facilities in Barefoot Nomad from given city [Only for Requeste]
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: authorization
- *         in: headers
- *         schema:
- *           type: string
- *         required:
- *           - authorization
- *     responses:
- *       '200':
- *             description: Accommodatios retrieved
- *       '401':
- *              description: No token provided.
- *       '403':
- *              description: Unauthorized access.
- * */
-
-/**
- * @swagger
- * /api/v1/accommodations/{id}:
- *   get:
- *     tags:
- *       - Accommodation
- *     name: swagger
- *     summary: This is used as the endpoint for getting a single accommodation details with id in Barefoot Nomad
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: authorization
- *         in: headers
- *         schema:
- *           type: string
- *         required:
- *           - authorization
- *     responses:
- *       '200':
- *             description: Accommodatiosn retrieved
- *       '404':
- *             description: Record not found.
- *       '401':
- *              description: No token provided.
+ *              description: No token provide.
  *       '403':
  *              description: Unauthorized access.
  * */

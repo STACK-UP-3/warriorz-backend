@@ -10,7 +10,7 @@ import userService from '../../services/userService';
 chai.use(chaiHttp);
 const { expect } = chai;
 
-describe('\n Testing Route (User Sign-In): POST /api/v1/users/signin \n', () => {
+describe('>>> Testing Route (User Sign-In): POST /api/v1/users/signin \n', () => {
   // Define variables
   const unverifiedUser = {
     firstname: 'Unverified',
@@ -27,6 +27,8 @@ describe('\n Testing Route (User Sign-In): POST /api/v1/users/signin \n', () => 
     bio: 'I am an example user account with a verified account',
   };
 
+  let resultVerified = null;
+
   //
   // Hooks ... https://mochajs.org/#hooks
   //
@@ -41,7 +43,7 @@ describe('\n Testing Route (User Sign-In): POST /api/v1/users/signin \n', () => 
 
     // Create sample users in database
     await userService.createuser(unverifiedUser);
-    const resultVerified = await userService.createuser(verifiedUser);
+    resultVerified = await userService.createuser(verifiedUser);
 
     // Verify a sample user for testing
     await userService.updateAtt(
@@ -74,11 +76,9 @@ describe('\n Testing Route (User Sign-In): POST /api/v1/users/signin \n', () => 
         expect(res.body.message).to.equal('You have signed in successfully');
         // https://medium.com/building-ibotta/testing-arrays-and-objects-with-chai-js-4b372310fe6d
         expect(res.body.data.user).to.includes({
-          firstName: verifiedUser.firstname,
-          lastName: verifiedUser.lastname,
+          id: resultVerified.dataValues.id,
           fullName: `${verifiedUser.firstname} ${verifiedUser.lastname}`,
           email: verifiedUser.email,
-          isVerified: true,
           role: 'Requester',
         });
         done();

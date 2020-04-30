@@ -69,7 +69,7 @@ describe('=====test route /api/v1/profile - update profile info======', () => {
       .patch('/api/v1/profile')
       .send(data)
       .end((err, res) => {
-        expect(res.body).to.have.status(401);
+        expect(res.body).to.have.status(404);
         expect(res.type).to.equal('application/json');
         expect(res.body).to.have.property('status');
         expect(res.body).to.have.property('message');

@@ -56,6 +56,14 @@ const TripDumbData = [
       travelReason: 'Visiting',
       accommodationID: 1,
     },
+    {      
+      origin: 'Kigali',
+      destination: 'Kigali',
+      date: 2020-10-20,
+      returnDate: 2020-11-20,
+      travelReason: 'Visiting',
+      accommodationID: 1,
+    },
   ];
   
   export default TripDumbData;

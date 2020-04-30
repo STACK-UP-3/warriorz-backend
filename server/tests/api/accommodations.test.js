@@ -13,7 +13,7 @@ describe('=====test POST route /api/v1/accommodatons - create accommodation ====
   before(async () => {
     await userService.updateAtt(
       { token: testTokens.travelAdmin },
-      { email: 'traveladmin@example.com' },
+      { email: 'travel@example.com' },
     );
     await userService.updateAtt(
       { token: testTokens.requester },
@@ -21,7 +21,7 @@ describe('=====test POST route /api/v1/accommodatons - create accommodation ====
     );
     await userService.updateAtt(
       { token: testTokens.supplier },
-      { email: 'suplieradmin@example.com' },
+      { email: 'supply@example.com' },
     );
   });
 
@@ -32,7 +32,7 @@ describe('=====test POST route /api/v1/accommodatons - create accommodation ====
       .set('authorization', 'notoken')
       .send(testData[0])
       .end((err, res) => {
-        expect(res.body).to.have.status(401);
+        expect(res.body).to.have.status(404);
         expect(res.type).to.equal('application/json');
         expect(res.body).to.have.property('status');
         expect(res.body)
@@ -48,7 +48,7 @@ describe('=====test POST route /api/v1/accommodatons - create accommodation ====
       .post('/api/v1/accommodations')
       .send(testData[0])
       .end((err, res) => {
-        expect(res.body).to.have.status(401);
+        expect(res.body).to.have.status(404);
         expect(res.type).to.equal('application/json');
         expect(res.body).to.have.property('status');
         expect(res.body)
@@ -101,7 +101,7 @@ describe('=====test POST route /api/v1/accommodatons - create accommodation ====
       .set('authorization', 'noToken')
       .send(testData[0])
       .end((err, res) => {
-        expect(res.body).to.have.status(401);
+        expect(res.body).to.have.status(404);
         expect(res.type).to.equal('application/json');
         expect(res.body).to.have.property('status');
         expect(res.body)
@@ -236,7 +236,7 @@ describe('=====test GET route /api/v1/accommodatons - view accommodations ======
   before(async () => {
     await userService.updateAtt(
       { token: testTokens.travelAdmin },
-      { email: 'traveladmin@example.com' },
+      { email: 'travel@example.com' },
     );
     await userService.updateAtt(
       { token: testTokens.requester },
@@ -244,17 +244,17 @@ describe('=====test GET route /api/v1/accommodatons - view accommodations ======
     );
     await userService.updateAtt(
       { token: testTokens.supplier },
-      { email: 'suplieradmin@example.com' },
+      { email: 'supply@example.com' },
     );
   });
 
   it('Should return 401 status code when token is not provided or expired', (done) => {
     chai
       .request(app)
-      .get('/api/v1/user/accommodations?page=1&limit=1')
+      .get('/api/v1/accommodations?page=1&limit=1')
       .set('authorization', 'notoken')
       .end((err, res) => {
-        expect(res.body).to.have.status(401);
+        expect(res.body).to.have.status(404);
         expect(res.type).to.equal('application/json');
         expect(res.body).to.have.property('status');
         expect(res.body)
@@ -267,9 +267,9 @@ describe('=====test GET route /api/v1/accommodatons - view accommodations ======
   it('Should return 401 status code when token is not provided', (done) => {
     chai
       .request(app)
-      .get('/api/v1/user/accommodations?page=1&limit=1')
+      .get('/api/v1/accommodations?page=1&limit=1')
       .end((err, res) => {
-        expect(res.body).to.have.status(401);
+        expect(res.body).to.have.status(404);
         expect(res.type).to.equal('application/json');
         expect(res.body).to.have.property('status');
         expect(res.body)
@@ -282,8 +282,8 @@ describe('=====test GET route /api/v1/accommodatons - view accommodations ======
   it('Should return 403 status code when user do not have permisson', (done) => {
     chai
       .request(app)
-      .get('/api/v1/user/accommodations?page=1&limit=1')
-      .set('authorization', testTokens.requester)
+      .get('/api/v1/accommodations?page=1&limit=1')
+      .set('authorization', testTokens.manager)
       .end((err, res) => {
         expect(res.body).to.have.status(403);
         expect(res.type).to.equal('application/json');
@@ -299,7 +299,7 @@ describe('=====test GET route /api/v1/accommodatons - view accommodations ======
   it('Should return 400 when query parameters are invalid', (done) => {
     chai
       .request(app)
-      .get('/api/v1/user/accommodations?page=dfdfgg&limit=dfnjkj')
+      .get('/api/v1/accommodations?page=dfdfgg&limit=dfnjkj')
       .set('authorization', testTokens.supplier)
       .end((err, res) => {
         expect(res.body).to.have.status(400);
@@ -313,7 +313,7 @@ describe('=====test GET route /api/v1/accommodatons - view accommodations ======
   it('Should return 200 status code when all accommodations are retrieved', (done) => {
     chai
       .request(app)
-      .get('/api/v1/user/accommodations?page=1&limit=1')
+      .get('/api/v1/accommodations?page=1&limit=1')
       .set('authorization', testTokens.supplier)
       .end((err, res) => {
         expect(res.body).to.have.status(200);
@@ -377,7 +377,7 @@ describe('=====test GET route /api/v1/accommodatons - view accommodations ======
   it('Should return empty data when no accommodations from given city', (done) => {
     chai
       .request(app)
-      .get('/api/v1/city/accommodations/city')
+      .get('/api/v1/accommodations?city=Bujumbura?page=1&limit=1')
       .set('authorization', testTokens.requester)
       .end((err, res) => {
         expect(res.body).to.have.status(200);
@@ -393,10 +393,10 @@ describe('=====test GET route /api/v1/accommodatons - view accommodations ======
   it('Should return 401 status code when token is not provided or expired', (done) => {
     chai
       .request(app)
-      .get('/api/v1/city/accommodations/Kigali')
+      .get('/api/v1/accommodations?city=Bujumbura?page=1&limit=1')
       .set('authorization', 'notoken')
       .end((err, res) => {
-        expect(res.body).to.have.status(401);
+        expect(res.body).to.have.status(404);
         expect(res.type).to.equal('application/json');
         expect(res.body).to.have.property('status');
         expect(res.body)
@@ -409,9 +409,9 @@ describe('=====test GET route /api/v1/accommodatons - view accommodations ======
   it('Should return 401 status code when token is not provided', (done) => {
     chai
       .request(app)
-      .get('/api/v1/city/accommodations/Kigali')
+      .get('/api/v1/accommodations?city=Bujumbura?page=1&limit=1')
       .end((err, res) => {
-        expect(res.body).to.have.status(401);
+        expect(res.body).to.have.status(404);
         expect(res.type).to.equal('application/json');
         expect(res.body).to.have.property('status');
         expect(res.body)
@@ -424,7 +424,7 @@ describe('=====test GET route /api/v1/accommodatons - view accommodations ======
   it('Should return 200 status code when all accommodations from given city are retrieved', (done) => {
     chai
       .request(app)
-      .get('/api/v1/city/accommodations/Kigali?page=1&limit=1')
+      .get('/api/v1/accommodations?city=Kigali&page=1&limit=1')
       .set('authorization', testTokens.requester)
       .end((err, res) => {
         expect(res.body).to.have.status(200);
@@ -438,11 +438,29 @@ describe('=====test GET route /api/v1/accommodatons - view accommodations ======
       });
   });
 
-  it('Should return 403 status code when user do not have permisson', (done) => {
+  it('Should return 400 status code when requester does not provide the city', (done) => {
     chai
       .request(app)
       .get('/api/v1/accommodations?page=1&limit=1')
       .set('authorization', testTokens.requester)
+      .end((err, res) => {
+        expect(res.body).to.have.status(400);
+        expect(res.type).to.equal('application/json');
+        expect(res.body).to.have.property('status');
+        expect(res.body)
+          .to.have.property('message')
+          .to.equal(
+            'To get accommodations for requester , The city is required',
+          );
+        done();
+      });
+  });
+
+  it('Should return 403 status code when user do not have permisson', (done) => {
+    chai
+      .request(app)
+      .get('/api/v1/accommodations?page=1&limit=1')
+      .set('authorization', testTokens.manager)
       .end((err, res) => {
         expect(res.body).to.have.status(403);
         expect(res.type).to.equal('application/json');

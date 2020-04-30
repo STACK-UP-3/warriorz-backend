@@ -25,8 +25,8 @@ export const authorizationCheck = async (req, res, next) => {
     next();
   } catch (error) {
     const Error = 'No token provided or Token expired';
-    errorLogger(req, 401, Error);
-    util.setError(401, Error);
+    errorLogger(req, 401, Error + error);
+    util.setError(404, Error);
     return util.send(res);
   }
 };

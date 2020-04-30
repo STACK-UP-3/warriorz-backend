@@ -34,3 +34,38 @@ export const tripVerification = async(req, res, next) =>{
 
     next();
 }
+
+export const specificVerification = async(req, res, next) =>{
+  const tripRequested = await reqService.findOneEntry({trip_id: req.params.trip_id});
+  if(!tripRequested){
+    const Error = 'This trip is not found in the database.';
+      debugLogger(req, 404, Error);
+      util.setError(404, Error);
+      return util.send(res);
+  }
+
+  if(req.userData.role === 'Manager'){
+    if(tripRequested.dataValues.line_manager_id !== req.userData.id && tripRequested.dataValues.user_id !== req.userData.id){
+      const Error = 'Unauthorised Access: This trip does not belong to you.';
+        debugLogger(req, 401, Error);
+        util.setError(401, Error);
+        return util.send(res);
+    }
+   
+    if(tripRequested.dataValues.line_manager_id === req.userData.id){
+      req.specificTripData = tripRequested;
+      return next();
+    }
+  }
+  
+  if(tripRequested.dataValues.user_id !== req.userData.id){
+    const Error = 'Unauthorised Access: Dear user this trip does not belong to you.';
+      debugLogger(req, 401, Error);
+      util.setError(401, Error);
+      return util.send(res);
+  }
+
+  req.specificTripData = tripRequested;
+  next();
+  
+};

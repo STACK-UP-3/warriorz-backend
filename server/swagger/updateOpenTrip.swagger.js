@@ -41,6 +41,8 @@
  *             description: Bad Request.
  *       '401':
  *             description: Unauthorised Access.
+ *       '403':
+ *             description: Forbidden Gate.
  *       '404':
  *             description:  Request Not found / Token not found / Token expired
  * */

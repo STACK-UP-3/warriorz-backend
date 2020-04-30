@@ -34,19 +34,6 @@ export default class accommodationValidation {
     return next();
   }
 
-  static async checkAccommodationExistByCity(req, res, next) {
-    const { city } = req.params;
-    const accommodations = await accommodationService.findByProp({
-      location: city,
-    });
-    if (!accommodations[0]) {
-      req.accommodations = [];
-      return next();
-    }
-    req.accommodations = accommodations;
-    return next();
-  }
-
   static async validateAccommodationData(req, res, next) {
     if (Object.keys(req.body).length === 0) {
       const Error = 'The data can not be empty!';
@@ -115,28 +102,38 @@ export default class accommodationValidation {
     next();
   }
 
-  static async accomPaginationByUserId(req, res, next) {
-    const accommodations = await accommodationService.findByProp({
-      user_id: req.userData.id,
-    });
-    const accommodationsReversed = accommodations.reverse();
-    const data = pagination(req, res, accommodationsReversed);
-    req.accommodationsData = data;
-    next();
-  }
-
-  static async accomPaginationByCity(req, res, next) {
-    const { accommodations } = req;
-    const accommodationsReversed = accommodations.reverse();
-    const data = pagination(req, res, accommodationsReversed);
-    req.accommodationsData = data;
-    next();
-  }
-
   static async allAccomPagination(req, res, next) {
-    const accommodations = await accommodationService.findAll();
+    let accommodations;
+    if (req.userData.role === 'Requester') {
+      if (!req.query.city) {
+        const Error = `To get accommodations for requester , The city is required`;
+        errorLogger(req, 400, Error);
+        util.setError(400, Error);
+        return util.send(res);
+      }
+      accommodations = await accommodationService.findByProp({
+        location: req.query.city,
+      });
+    } else if (req.userData.role === 'Supplier') {
+      accommodations = req.query.city
+        ? await accommodationService.findByProp({
+            user_id: req.userData.id,
+            location: req.query.city,
+          })
+        : await accommodationService.findByProp({ user_id: req.userData.id });
+    } else {
+      accommodations = req.query.city
+        ? await accommodationService.findByProp({ location: req.query.city })
+        : await accommodationService.findAll();
+    }
+
     const accommodationsReversed = accommodations.reverse();
-    const data = pagination(req, res, accommodationsReversed);
+    const data = pagination(
+      req.query.page,
+      req.query.limit,
+      accommodationsReversed,
+      res,
+    );
     req.accommodations = data;
     next();
   }

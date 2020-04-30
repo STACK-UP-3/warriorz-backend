@@ -9,7 +9,6 @@ export function up(queryInterface, Sequelize) {
     name: {
       allowNull: false,
       type: Sequelize.STRING,
-      unique: true,
     },
     permissions: {
       type: Sequelize.STRING,
