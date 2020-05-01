@@ -25,9 +25,16 @@ class accommodationService {
       where: prop,
     });
   }
-  
+
   static findAll() {
     return accommodations.findAll();
+  }
+
+  static decrementAvailableRooms(accommodationId) {
+    return accommodations.decrement('availableRooms', {
+      by: 1,
+      where: { id: accommodationId },
+    });
   }
 }
 

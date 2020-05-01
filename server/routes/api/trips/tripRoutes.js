@@ -1,13 +1,16 @@
 import express from 'express';
 import tripController from '../../../controllers/tripController';
 import tripValidations from '../../../middlewares/validators/tripValidate';
-import { tripVerification,specificVerification } from '../../../middlewares/verifications/tripVerification';
+import {
+  tripVerification,
+  specificVerification,
+  tripRequestVerification,
+} from '../../../middlewares/verifications/tripVerification';
 import {
   authorizationCheck,
   findManagerByUserID,
 } from '../../../middlewares/authorization';
 import allow from '../../../middlewares/roleAuthorisation';
-
 
 const router = express.Router();
 
@@ -43,33 +46,46 @@ router.patch(
   tripController.updateOpenTripDetails,
 );
 
-router.get('/', 
-    [
-      authorizationCheck,
-      allow('Requester', 'Manager'),
-      tripValidations.requestQueryValidation,
-      tripValidations.userTripsSorting,
-    ],
-    tripController.viewAllTrips,
-    );
-
-router.get('/assigned', 
+router.get(
+  '/',
   [
-    authorizationCheck,allow('Manager'),
+    authorizationCheck,
+    allow('Requester', 'Manager'),
+    tripValidations.requestQueryValidation,
+    tripValidations.userTripsSorting,
+  ],
+  tripController.viewAllTrips,
+);
+
+router.get(
+  '/assigned',
+  [
+    authorizationCheck,
+    allow('Manager'),
     tripValidations.requestQueryValidation,
     tripValidations.managerTripsSorting,
   ],
-    tripController.viewAllTrips,
-    );
+  tripController.viewAllTrips,
+);
 
-router.get('/:trip_id', 
-    [
-     authorizationCheck,
-     allow('Requester', 'Manager'),
-     tripValidations.tripIdValidation,
-     specificVerification,
-   ],
-     tripController.viewSpecificTrip,
-     );
+router.get(
+  '/:trip_id',
+  [
+    authorizationCheck,
+    allow('Requester', 'Manager'),
+    tripValidations.tripIdValidation,
+    specificVerification,
+  ],
+  tripController.viewSpecificTrip,
+);
+
+router.patch(
+  '/requests/:id',
+  authorizationCheck,
+  allow('Manager'),
+  tripValidations.validateApproveData,
+  tripRequestVerification,
+  tripController.approveRejectTripRequest,
+);
 
 export default router;

@@ -2,7 +2,6 @@ import models from '../models';
 
 const { triprequests } = models;
 
-
 /**
  * @exports
  * @class TripsRequestService
@@ -32,6 +31,12 @@ class TripsRequestService {
     return triprequests.findOne({
       where: prop,
       include: ['tripRequest'],
+    });
+  }
+
+  static updateAtt(set, prop) {
+    return triprequests.update(set, {
+      where: prop,
     });
   }
 }
