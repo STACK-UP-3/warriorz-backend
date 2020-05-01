@@ -237,3 +237,13 @@ export const bookingDataValidateSchema = Joi.object({
   checkInDate: Joi.date().iso().required(),
   checkOutDate: Joi.date().iso().required(),
 });
+
+export const approveDataValidateSchema = Joi.object({
+  requestId: Joi.number().integer().required(),
+  status: Joi.string()
+    .min(3)
+    .max(50)
+    .pattern(/^[a-zA-Z]/)
+    .required()
+    .equal('Approved', 'Rejected'),
+});
