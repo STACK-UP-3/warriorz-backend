@@ -69,3 +69,13 @@ export const cityErrorTemplate = (req,res,city)=>{
      return util.send(res);
 
 }
+
+export const JoiErrorHandler = (req,res,next,message) => {
+  if (message) {
+    const Error = message.details[0].message.replace('/', '').replace(/"/g, '');
+    errorLogger(req, 400, Error);
+    util.setError(400, Error);
+    return util.send(res);
+  }
+  next();
+}
