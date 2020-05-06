@@ -1,11 +1,11 @@
 /* eslint-disable consistent-return */
 import dotenv from 'dotenv';
 import { 
-         tripValidateSchema,
-         tripUpdateValidateSchema,
-         tripIDValidateSchema,
-         requestQueryValidateSchema,
-         } from '../../helpers/validateSchema';
+    tripValidateSchema,
+    tripIDValidateSchema,
+    tripUpdateValidateSchema,
+    requestQueryValidateSchema,
+    MultipleDestinationTripValidateSchema } from '../../helpers/validateSchema';
 import cityService from '../../services/cityService';
 import Util from '../../helpers/util';
 import { errorLogger }from '../../helpers/loggerHandle';
@@ -15,8 +15,13 @@ const util = new Util();
 dotenv.config();
 class TripValidations{
 
- static async createTripJoiValidation(req, res, next){
+  static async createTripJoiValidation(req, res, next){
     const { error } = tripValidateSchema.validate(req.body);
+    joiErrorsTemplate(req,res,next ,error);
+  }
+
+  static async createMultipleDestinationTripJoiValidation(req, res, next){
+    const { error } = MultipleDestinationTripValidateSchema.validate(req.body);
     joiErrorsTemplate(req,res,next ,error);
  
   }
@@ -45,18 +50,50 @@ class TripValidations{
      next();
   }
 
- static async createTripTypeCheck(req, _res, next){
-    let type;
-  if(req.body.returnDate){ 
-    type='return-trip'; 
-  } else { 
-    type='one-way-trip'; 
-  }
- req.tripType = type;
- next();
-}
+  static async multipleCreateTripCityAndDateCheck(req, res, next){
+    const findOrigin = await cityService.findByProp({city : req.body.origin  });
 
- static async updateTripJoiValidation(req, res, next){
+    if(!findOrigin[0]){
+      return cityErrorTemplate(req,res,'Origin');
+     }
+    
+    req.body.destinations.forEach(async destination =>{
+      
+      if(req.body.origin === destination){
+        const Error = 'Origin and Destination can not be the same';
+        errorLogger(req, 400, Error);
+        util.setError(400, Error);
+        return util.send(res);
+      }
+
+      const findDestination = await cityService.findByProp({city : destination });
+      if(!findDestination[0]){
+        return cityErrorTemplate(req,res,`Destination ${destination}`);
+      }
+    })
+
+   if((req.body.date) > (req.body.returnDate)){
+     const Error = 'Return date can not be less than Travel date';
+     errorLogger(req, 400, Error);
+     util.setError(400, Error);
+     return util.send(res);
+   }
+
+     next();
+  }
+
+  static async createTripTypeCheck(req, _res, next){
+      let type;
+    if(req.body.returnDate){ 
+      type='return-trip'; 
+    } else { 
+      type='one-way-trip'; 
+    }
+  req.tripType = type;
+  next();
+  }
+
+  static async updateTripJoiValidation(req, res, next){
     const { error } = tripUpdateValidateSchema.validate({
     trip_id:req.params.trip_id,
     origin:req.body.origin, 
@@ -71,7 +108,7 @@ class TripValidations{
   
   }
   
- static async checkOpenTripCityAndDATE(req, res, next){
+  static async checkOpenTripCityAndDATE(req, res, next){
    let city;
    if(req.body.origin){
     const findOrigin = await cityService.findByProp({ city : req.body.origin  });
@@ -121,7 +158,7 @@ class TripValidations{
       next();
   };
 
- static async tripIdValidation (req,res,next) {
+  static async tripIdValidation (req,res,next) {
     const { error } = tripIDValidateSchema.validate({
       trip_id:req.params.trip_id, 
       });

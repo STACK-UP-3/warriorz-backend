@@ -74,7 +74,7 @@ describe('===== Test Update Open Trip Request =====', () => {
 
         expect(res).to.have.status(200);
         expect(res.body.message).to.equal(
-          'The return-trip details were successfully updated',
+          'The one-way-trip details were successfully updated',
         );
         expect(res.body.data).to.includes({
           // Name: 'IRADUKUNDA Fiacre',

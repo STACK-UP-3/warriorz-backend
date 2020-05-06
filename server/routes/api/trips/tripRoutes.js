@@ -24,6 +24,19 @@ router.post(
   tripController.createTripRequest,
 );
 
+router.post(
+  '/multiple',
+  [
+    authorizationCheck,
+    allow('Requester', 'Manager'),
+    findManagerByUserID,
+    tripValidations.createMultipleDestinationTripJoiValidation,
+    tripValidations.multipleCreateTripCityAndDateCheck,
+    tripValidations.createTripTypeCheck,
+  ],
+  tripController.multipleDestinationTripRequest,
+);
+
 router.get(
   '/cities',
   authorizationCheck,

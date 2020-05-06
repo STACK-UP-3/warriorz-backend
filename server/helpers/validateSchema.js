@@ -44,6 +44,15 @@ export const tripValidateSchema = Joi.object({
   accommodationID: Joi.number().integer().required(),
 });
 
+export const MultipleDestinationTripValidateSchema = Joi.object({
+  origin: Joi.string().min(3).max(40).regex(/^[a-zA-Z][a-zA-Z\s]*$/).required(),
+  destinations: Joi.array().min(2).required(),
+  date: Joi.date().iso().required(),
+  returnDate: Joi.date().iso(),
+  travelReason: Joi.string().min(3).max(40).regex(/^[a-zA-Z][a-zA-Z\s]*$/).required(),
+  accommodationID: Joi.number().integer().required(),
+});
+
 export const validateEmail = Joi.object({
   email: Joi.string()
     .email({
@@ -87,6 +96,8 @@ export const tripUpdateValidateSchema = Joi.object({
 export const tripIDValidateSchema = Joi.object({
   trip_id: Joi.number().integer(),
 });
+
+
 
 export const requestQueryValidateSchema = Joi.object({
   page: Joi.number().integer(),

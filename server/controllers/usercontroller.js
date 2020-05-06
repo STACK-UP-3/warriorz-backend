@@ -114,13 +114,16 @@ class User {
     });
 
     await userService.updateAtt({ token: accessToken }, { id: userInfo.id });
+    
     const data = {
       access_token: accessToken,
       user: userInfo,
     };
 
-    util.setSuccess(200, 'You have signed in successfully', data);
-    return util.send(res);
+    const message = 'You have signed in successfully';
+
+    util.setSuccess(200, message, data);
+    return util.send(res)
   }
 
   static async Oauth(req, res) {

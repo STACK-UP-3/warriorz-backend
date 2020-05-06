@@ -27,6 +27,120 @@ describe('===== test create one way trip request =====', () => {
   // Test Cases
   // -------------------------------------
 
+  it('Should validation error with multiple Destination', (done) => {
+    chai
+      .request(app)
+      .post('/api/v1/trips/multiple')
+      .set('Authorization', testTokens.requester)
+      .send(trip[0])
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(400);
+        expect(res.type).to.equal('application/json');
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('message');
+
+        expect(res).to.have.status(400);
+        done();
+      });
+  });
+
+  it('Should destination city not found with multiple Destination', (done) => {
+    chai
+      .request(app)
+      .post('/api/v1/trips/multiple')
+      .set('Authorization', testTokens.requester)
+      .send(trip[10])
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(404);
+        expect(res.type).to.equal('application/json');
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('message');
+
+        expect(res).to.have.status(404);
+        done();
+      });
+  });
+
+  it('Should date can not be less than Travel date from multiple Destination', (done) => {
+    chai
+      .request(app)
+      .post('/api/v1/trips/multiple')
+      .set('Authorization', testTokens.requester)
+      .send(trip[9])
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(400);
+        expect(res.type).to.equal('application/json');
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('message');
+
+        expect(res).to.have.status(400);
+        expect(res.body.message).to.equal(
+          'Return date can not be less than Travel date',
+        );
+        done();
+      });
+  });
+
+  it('Should create a one way trip request with multiple Destination', (done) => {
+    chai
+      .request(app)
+      .post('/api/v1/trips/multiple')
+      .set('Authorization', testTokens.requester)
+      .send(trip[8])
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(200);
+        expect(res.type).to.equal('application/json');
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('message');
+        expect(res.body).to.have.property('data');
+
+        expect(res).to.have.status(200);
+        expect(res.body.message).to.equal(
+          'A one-way-trip was registered successfully.',
+        );
+        setImmediate(done)
+      });
+  });
+
+  it('Should not create Return Trip request: Because Origin and Destination can not be the same.', (done) => {
+    chai
+      .request(app)
+      .post('/api/v1/trips/multiple')
+      .set('Authorization', testTokens.requester)
+      .send(trip[12])
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(400);
+        expect(res.type).to.equal('application/json');
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('message');
+
+        expect(res.body.status).to.equal(400);
+        expect(res.body.message).to.equal('Origin and Destination can not be the same');
+        done();
+      });
+  });
+
+  it('Should create a one way trip request ', (done) => {
+    chai
+      .request(app)
+      .post('/api/v1/trips')
+      .set('Authorization', testTokens.requester)
+      .send(trip[0])
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(200);
+        expect(res.type).to.equal('application/json');
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('message');
+        expect(res.body).to.have.property('data');
+
+        expect(res).to.have.status(200);
+        expect(res.body.message).to.equal(
+          'A one-way-trip was registered successfully.',
+        );
+        done();
+      });
+  });
+
   it('Should create a one way trip request ', (done) => {
     chai
       .request(app)
@@ -142,8 +256,8 @@ describe('===== test create one way trip request =====', () => {
     chai
       .request(app)
       .post('/api/v1/trips')
-      .send(trip[8])
       .set('Authorization', testTokens.requester)
+      .send(trip[11])
       .end((err, res) => {
         expect(res.statusCode).to.equal(400);
         expect(res.type).to.equal('application/json');
@@ -151,7 +265,7 @@ describe('===== test create one way trip request =====', () => {
         expect(res.body).to.have.property('message');
 
         expect(res.body.status).to.equal(400);
-        expect(res.body.message).to.equal('Origin and Destination can not be the same.');
+        expect(res.body.message).to.equal('Origin and Destination can not be the same');
         done();
       });
   });

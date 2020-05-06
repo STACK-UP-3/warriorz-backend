@@ -131,6 +131,60 @@ static async viewSpecificTrip(req,res){
     return util.send(res);
 
   }
+  static async multipleDestinationTripRequest( req, res ){
+    const { destinations,origin } = req.body
+      const response = [];
+      for await (const destination of destinations){
+        let from;
+        
+        if(destinations.indexOf(destination)){
+          from = destinations[ destinations.indexOf(destination) - 1 ];
+        }else{
+          from = origin;
+        }
+
+        const tripData = {
+          user_id: req.userData.id,
+          origin: from,
+          destination,
+          dateOfTravel: req.body.date,
+          dateOfReturn: req.body.returnDate,
+          travelReason: req.body.travelReason,
+          accommodation_id: req.body.accommodationID,
+          type: req.tripType,
+        };
+
+        const trip = await tripService.createTrip(tripData);
+        
+        const tripRequest = {
+          trip_id: trip.dataValues.id,
+          user_id: req.userData.id,
+          line_manager_id: req.manData.id,
+          status: trip.dataValues.status,
+        }
+        await reqService.createTripReq(tripRequest);
+        response.push(trip)
+      } 
+
+    try{
+        const message = `A ${req.tripType} was registered successfully.`;
+
+        const data = response.map(res => ({
+            Name: req.userData.fullName,
+            Email: req.userData.email,
+            From: res.dataValues.origin,
+            Destination: res.dataValues.destination,
+            DateOfTravel: res.dataValues.dateOfTravel,
+            DateOfReturn: req.body.returnDate,
+        }))
+
+        util.setSuccess(200, message, data);
+        return util.send(res);
+    } catch(error){
+      const Error = `Internal Server Error + ${error}`;
+      return errorLogger(req, 500, Error); 
+    }
+  }
 }
 
 export default TripController;
