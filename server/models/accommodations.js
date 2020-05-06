@@ -30,6 +30,10 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      availableRooms: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
     {},
   );

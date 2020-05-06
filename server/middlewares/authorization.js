@@ -39,8 +39,7 @@ export const findManagerByUserID = async (req, res, next) => {
     user_id: decoded.id,
   });
   if (!viewManagement[0]) {
-    const Error =
-      'Unauthorised Access: Dear user you do not have a manager at the moment.';
+    const Error = 'Unauthorised Access: Dear user you do not have a manager at the moment.';
     debugLogger(req, 401, Error);
     util.setError(401, Error);
     return util.send(res);

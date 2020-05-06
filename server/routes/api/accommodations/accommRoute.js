@@ -3,6 +3,7 @@ import accomController from '../../../controllers/accomodationController';
 import accommodationValidation from '../../../middlewares/validators/accommodation';
 import { authorizationCheck } from '../../../middlewares/authorization';
 import allow from '../../../middlewares/roleAuthorisation';
+import BookingVarification from '../../../middlewares/verifications/accommodationBookingsVerify';
 
 const router = express.Router();
 
@@ -30,6 +31,16 @@ router.get(
   accommodationValidation.validateIdFromParams,
   accommodationValidation.checkAccommodationExist,
   accomController.getSpecificAccomDetails,
+);
+
+router.post(
+  '/bookings',
+  authorizationCheck,
+  allow('Requester'),
+  accommodationValidation.validateBookingData,
+  accommodationValidation.validateDates,
+  BookingVarification.verifyBookingAvailablity,
+  accomController.bookAccommodation,
 );
 
 export default router;

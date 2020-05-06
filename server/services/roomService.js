@@ -25,6 +25,12 @@ class RoomService {
       where: prop,
     });
   }
+
+  static updateAtt(set, prop) {
+    return rooms.update(set, {
+      where: prop,
+    });
+  }
 }
 
 export default RoomService;

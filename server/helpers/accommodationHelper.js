@@ -2,6 +2,8 @@ import roomServices from '../services/roomService';
 import photoServices from '../services/photoService';
 import serviceServices from '../services/servicesService';
 import accommodationService from '../services/accommodationService';
+import bookingService from '../services/bookingService';
+import tripService from '../services/tripServices';
 
 class Accommodation {
   static async createAccommodation(accommodation) {
@@ -184,6 +186,31 @@ class Accommodation {
       images,
       rooms,
     };
+  }
+
+  static async bookAccommodation(bookingData) {
+    const booking = await bookingService.createBooking({
+      accommodation_id: bookingData.accommodationId,
+      room_id: bookingData.roomId,
+      trip_id: bookingData.tripId,
+      checkInDate: bookingData.checkInDate,
+      checkOutDate: bookingData.checkOutDate,
+      user_id: bookingData.user_id,
+    });
+    await roomServices.updateAtt(
+      { status: 'booked' },
+      { id: bookingData.roomId },
+    );
+    await accommodationService.decrementAvailableRooms(
+      bookingData.accommodationId,
+    );
+    await tripService.updateTrip(
+      {
+        accommodation_id: bookingData.accommodationId,
+      },
+      { id: bookingData.tripId },
+    );
+    return booking;
   }
 }
 

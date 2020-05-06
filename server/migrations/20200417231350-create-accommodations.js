@@ -42,6 +42,10 @@ export function up(queryInterface, Sequelize) {
       allowNull: false,
       type: Sequelize.DATEONLY,
     },
+    availableRooms: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
   });
 }
 export function down(queryInterface) {
