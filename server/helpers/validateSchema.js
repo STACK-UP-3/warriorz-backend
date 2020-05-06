@@ -229,3 +229,11 @@ export const queryParamsValidateSchema = Joi.object({
 export const idValidateSchema = Joi.object({
   id: Joi.number().integer().required(),
 });
+
+export const bookingDataValidateSchema = Joi.object({
+  accommodationId: Joi.number().integer().required(),
+  roomId: Joi.number().integer().required(),
+  tripId: Joi.number().integer().required(),
+  checkInDate: Joi.date().iso().required(),
+  checkOutDate: Joi.date().iso().required(),
+});

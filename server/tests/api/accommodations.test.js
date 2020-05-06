@@ -201,7 +201,6 @@ describe('=====test POST route /api/v1/accommodatons - create accommodation ====
       .set('authorization', testTokens.travelAdmin)
       .send(testData[7])
       .end((err, res) => {
-        console.log('============', res.body, '===============');
         expect(res.body).to.have.status(201);
         expect(res.type).to.equal('application/json');
         expect(res.body).to.have.property('status');
