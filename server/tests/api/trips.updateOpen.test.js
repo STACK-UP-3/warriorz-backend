@@ -62,7 +62,7 @@ describe('===== Test Update Open Trip Request =====', () => {
   it('Should update the open return trip request ', (done) => {
     chai
       .request(app)
-      .patch('/api/v1/trips/5')
+      .patch('/api/v1/trips/6')
       .set('Authorization', testTokens.requester)
       .send(updateData[0])
       .end((err, res) => {
@@ -77,7 +77,6 @@ describe('===== Test Update Open Trip Request =====', () => {
           'The return-trip details were successfully updated',
         );
         expect(res.body.data).to.includes({
-          // Name: 'IRADUKUNDA Fiacre',
           Email: 'firaduk@yahoo.com',
           From: 'Kigali',
           Destination: 'Nairobi',

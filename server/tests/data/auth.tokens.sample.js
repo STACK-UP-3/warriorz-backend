@@ -31,6 +31,10 @@ testTokens.travelAdmin = jwt.sign(tokenData[4], process.env.JWT_KEY, {
   expiresIn: '1h',
 });
 
+testTokens.userFalseNotification = jwt.sign(tokenData[5], process.env.JWT_KEY, {
+  expiresIn: '1h',
+});
+
 // Valid token for database User
 
 /**

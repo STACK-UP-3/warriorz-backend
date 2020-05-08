@@ -86,6 +86,7 @@ export const tripUpdateValidateSchema = Joi.object({
 
 export const tripIDValidateSchema = Joi.object({
   trip_id: Joi.number().integer(),
+  notification_id: Joi.number().integer(),
 });
 
 export const requestQueryValidateSchema = Joi.object({

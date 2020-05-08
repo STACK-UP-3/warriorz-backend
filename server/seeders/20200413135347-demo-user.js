@@ -7,6 +7,7 @@ export async function up(queryInterface) {
   return queryInterface.bulkInsert(
     'users',
     [
+      // 1
       {
         firstname: 'IRADUKUNDA',
         lastname: 'Fiacre',
@@ -19,6 +20,7 @@ export async function up(queryInterface) {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      // 2
       {
         firstname: 'NDOLI',
         lastname: 'Jack',
@@ -31,6 +33,7 @@ export async function up(queryInterface) {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      // 3
       {
         firstname: 'Admin',
         lastname: 'Example',
@@ -42,7 +45,7 @@ export async function up(queryInterface) {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      // Requester user (not verified)
+      // Requester user (not verified) 4
       {
         firstname: 'Regular',
         lastname: 'User',
@@ -53,7 +56,7 @@ export async function up(queryInterface) {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      // Manager user (verified)
+      // Manager user (verified) 5
       {
         firstname: 'Managerial',
         lastname: 'User',
@@ -65,7 +68,7 @@ export async function up(queryInterface) {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      // Supplier user (verified)
+      // Supplier user (verified) 6
       {
         firstname: 'Supply',
         lastname: 'User',
@@ -77,7 +80,7 @@ export async function up(queryInterface) {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      // Travel admin user (verified)
+      // Travel admin user (verified) 7
       {
         firstname: 'Travel',
         lastname: 'Admin',
@@ -89,7 +92,7 @@ export async function up(queryInterface) {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      // Super admin user
+      // Super admin user 8
       {
         firstname: 'Super',
         lastname: 'Admin',
@@ -97,6 +100,19 @@ export async function up(queryInterface) {
         password: await bcrypt.hash('super', 10),
         bio: 'Valid user. For testing purposes only.',
         role: 'Super Administrator',
+        isVerified: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      // Requester with false email notifications 9
+
+      {
+        firstname: 'xxxxx',
+        lastname: 'yyyyy',
+        email: 'xxxxx@example.com',
+        password: await bcrypt.hash('super', 10),
+        bio: 'False email notifications. For testing purposes only.',
+        role: 'Requester',
         isVerified: true,
         createdAt: new Date(),
         updatedAt: new Date(),

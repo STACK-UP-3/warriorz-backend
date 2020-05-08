@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import tripService from '../services/tripServices';
 import reqService from '../services/tripReqService';
 import cityService from '../services/cityService';
+import notificationHandle from '../helpers/notificationsHandle';
 import pagination from '../helpers/paginationHelper';
 import Util from '../helpers/util';
 import { errorLogger }from '../helpers/loggerHandle';
@@ -34,10 +35,8 @@ class TripController {
         line_manager_id: req.manData.id,
         status: trip.dataValues.status,
       }
-       await reqService.createTripReq(tripRequest);
+      const tripRequestCreate =  await reqService.createTripReq(tripRequest);
 
-      const message = `A ${req.tripType} was registered successfully.`;
-  
       const data = {
         Name: req.userData.fullName,
         Email: req.userData.email,
@@ -46,6 +45,24 @@ class TripController {
         DateOfTravel: trip.dataValues.dateOfTravel,
         DateOfReturn: req.body.returnDate,
       };
+
+      const emailContent = {
+        subject:'Trip Request Created',
+        userMessage:`A ${tripData.type} has been Created`,
+        managerMessage:`A ${tripData.type} has been Created by ${req.userData.fullName}`,
+      };
+
+      const notificationData = {
+        trip_request_id: tripRequestCreate.dataValues.id,
+        user_id: req.userData.id,
+        line_manager_id: req.manData.id,
+        subject: emailContent.subject,
+        description: `A ${tripData.type} has been Created, From ${data.From} To ${data.Destination} on ${data.DateOfTravel}`,
+      };
+
+      await notificationHandle(notificationData,req.userData.id,emailContent,req);
+
+      const message = `A ${req.tripType} was registered successfully.`;
 
       util.setSuccess(200, message, data);
       return util.send(res);

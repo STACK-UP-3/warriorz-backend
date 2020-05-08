@@ -25,6 +25,13 @@ export default (sequelize, DataTypes) => {
       sourceKey: 'trip_id', 
       onDelete: 'CASCADE',
     });
+
+    Triprequest.hasMany(models.notifications, { 
+      foreignKey: 'trip_request_id',
+      as:'notificationsTripRequest',
+      targetKey: 'id', 
+      onDelete: 'CASCADE',
+    });
   };
   return Triprequest;
 };

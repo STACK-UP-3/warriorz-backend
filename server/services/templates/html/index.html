@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Notifications</title>
+  <script src="http://localhost:5000/socket.io/socket.io.js"></script>
+  <style>
+    #allNotifications{
+      display: grid;
+      grid-gap: 10px;
+      grid-template-columns: repeat(3,1fr);
+      font-size: 16px;
+      font-family: sans-serif;
+    }
+    .column{
+      line-height: 1.2;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="allNotifications">
+    <div class="column" id="date">Date</div>
+    <div class="column" id="subject">Subject</div>
+    <div class="column" id="status">isRead</div>
+  </div>
+  
+  <script>
+    const socket = io('http://localhost:5000');
+    const allNotifications = document.getElementById('allNotifications');
+    const date = document.getElementById('date');
+    const subject = document.getElementById('subject');
+    const status = document.getElementById('status');
+
+    const viewNotification = (notification)=>{
+        const dateElt = document.createElement('p');
+        dateElt.innerText = notification.createdAt;
+        date.append(dateElt);
+
+        const subjectElt = document.createElement('p');
+        subjectElt.innerText = notification.subject;
+        subject.append(subjectElt);
+
+        const statusElt = document.createElement('p');
+        statusElt.innerText = notification.isRead;
+        status.append(statusElt);
+    }
+
+    socket.on('new-notification', data=>{
+        viewNotification(data);
+    });
+
+  </script>
+</body>
+</html>
