@@ -32,7 +32,7 @@ describe('>>> Testing Route (User Sign-In): POST /api/v1/users/signin \n', () =>
   //
   // Hooks ... https://mochajs.org/#hooks
   //
-
+  let token;
   before(async () => {
     // Hash passwords
     unverifiedUser.password = await bcrypt.hash(
@@ -64,6 +64,7 @@ describe('>>> Testing Route (User Sign-In): POST /api/v1/users/signin \n', () =>
       .post('/api/v1/users/signin')
       .send({ email: verifiedUser.email, password: verifiedUser.passwordPlain })
       .end((err, res) => {
+        token = res.body.data.access_token;
         expect(res.statusCode).to.equal(200);
         expect(res.type).to.equal('application/json');
         expect(res.body).to.have.property('status');
@@ -84,6 +85,33 @@ describe('>>> Testing Route (User Sign-In): POST /api/v1/users/signin \n', () =>
         done();
       });
   });
+
+  it('should authenticate an existing verified user by His/Her Token', (done) => {
+    chai
+      .request(app)
+      .get(`/api/v1/users/tokenAuth/${token}`)
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(200);
+        expect(res.type).to.equal('application/json');
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('message');
+        expect(res.body).to.have.property('data');
+        expect(res.body.data).to.have.property('access_token');
+        expect(res.body.data).to.have.property('user');
+
+        expect(res.body.status).to.equal(200);
+        expect(res.body.message).to.equal('You have signed in successfully');
+        // https://medium.com/building-ibotta/testing-arrays-and-objects-with-chai-js-4b372310fe6d
+        expect(res.body.data.user).to.includes({
+          id: resultVerified.dataValues.id,
+          fullName: `${verifiedUser.firstname} ${verifiedUser.lastname}`,
+          email: verifiedUser.email,
+          role: 'Requester',
+        });
+        done();
+      });
+  });
+
 
   // User not verified
   it('should return error for un-verified user', (done) => {

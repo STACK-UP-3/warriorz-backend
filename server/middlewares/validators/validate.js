@@ -135,6 +135,16 @@ class Validator {
 
     return next();
   }
+  
+  static async VerifyToken(req,res,next){
+    const { token } = req.params;
+    const getInfo = jwt.verify(token, process.env.JWT_KEY);
+
+    const userRecord = await userService.findByEmail({ email : getInfo.email });
+
+    req.user = userRecord;
+    return next()
+  }
 
   static async verifyUser(req, res, next) {
     const { email, password } = req.body;
