@@ -30,10 +30,10 @@ export default (sequelize, DataTypes) => {
         defaultValue: false,
       },
       googleId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
       },
       facebookId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
       },
       country: { type: DataTypes.STRING, allowNull: true },
       phone: { type: DataTypes.STRING, allowNull: true },

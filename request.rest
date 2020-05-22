@@ -1,0 +1,61 @@
+###
+POST http://localhost:5000/api/v1/users/signup 
+Content-Type: application/json
+
+{
+    "email": "firaduk@ygmail.com",
+    "firstname": "kazitunga",
+    "lastname": "Dativa",
+    "password": "user@123",
+    "bio": "dsdhjsdhjsdhsjdsjhdbcjdbdjcbsdjc"
+}
+###
+GET http://localhost:5000/api/v1/users/verify/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJmaXJhZHVrQHlnbWFpbC5jb20iLCJpYXQiOjE1ODgxOTUzNTcsImV4cCI6MTU4ODIwOTc1N30.Z3XbIBwWHY9IAdGCOdwIWMuiiANJcLRdTzI5MdkhIsw
+Content-Type: application/json
+
+###
+POST http://localhost:5000/api/v1/users/signin 
+Content-Type: application/json
+
+{
+    "email":"firaduk@yahoo.com",
+    "password":"user@123"
+}
+###
+POST http://localhost:5000/api/v1/trips
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZnVsbE5hbWUiOiJJUkFEVUtVTkRBIEZpYWNyZSIsImVtYWlsIjoiZmlyYWR1a0B5YWhvby5jb20iLCJyb2xlIjoiUmVxdWVzdGVyIiwiaWF0IjoxNTg4MzI4Nzc3LCJleHAiOjE1ODgzNDMxNzd9.zSQ1UlVZFOIxrP0fGncR4rQmm687P331FpitTDuEygA
+
+{      
+    "origin": "Kigali",
+    "destination": "Kampala",
+    "date": "2020-10-20",
+    "travelReason": "Visiting",
+    "accommodationID": 1
+}
+###
+POST http://localhost:5000/api/v1/trips/multiple
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZnVsbE5hbWUiOiJJUkFEVUtVTkRBIEZpYWNyZSIsImVtYWlsIjoiZmlyYWR1a0B5YWhvby5jb20iLCJyb2xlIjoiUmVxdWVzdGVyIiwiaWF0IjoxNTg4Mjg0MjA1LCJleHAiOjE1ODgyOTg2MDV9.tRRuv3gnBBSZMFNbj44N37zx0NRzxGgI3Jbome4O7tk
+
+{      
+    "origin": "Kampala",
+    "destinations": ["Kampala","Dodoma"],
+    "date": "2020-10-20",
+    "returnDate":"2020-12-20",
+    "travelReason": "Visiting",
+    "accommodationID": 1
+}
+###
+POST http://localhost:5000/api/v1/comment/7
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZnVsbE5hbWUiOiJJUkFEVUtVTkRBIEZpYWNyZSIsImVtYWlsIjoiZmlyYWR1a0B5YWhvby5jb20iLCJyb2xlIjoiUmVxdWVzdGVyIiwiaWF0IjoxNTg4MzI4Nzc3LCJleHAiOjE1ODgzNDMxNzd9.zSQ1UlVZFOIxrP0fGncR4rQmm687P331FpitTDuEygA
+
+{
+    "content":"kabundege"
+}
+
+###
+delete http://localhost:5000/api/v1/comment/7/2
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZnVsbE5hbWUiOiJJUkFEVUtVTkRBIEZpYWNyZSIsImVtYWlsIjoiZmlyYWR1a0B5YWhvby5jb20iLCJyb2xlIjoiUmVxdWVzdGVyIiwiaWF0IjoxNTg4MzI4Nzc3LCJleHAiOjE1ODgzNDMxNzd9.zSQ1UlVZFOIxrP0fGncR4rQmm687P331FpitTDuEygA

@@ -1,6 +1,6 @@
 import express from 'express';
-
 import user from '../../../controllers/usercontroller';
+import Social from '../../../controllers/socialOauth';
 import validate from '../../../middlewares/validators/validate';
 import allow from '../../../middlewares/roleAuthorisation';
 import { authorizationCheck } from '../../../middlewares/authorization';
@@ -52,7 +52,11 @@ router.get(
   validate.verificationValidation,
   user.accountVerification,
 );
-
+router.get(
+  '/tokenAuth/:token',
+  validate.VerifyToken,
+  user.signIn,
+)
 router.get(
   '/auth/google',
   passport.authenticate('google', { scope: ['profile', 'email'] }),
@@ -60,7 +64,7 @@ router.get(
 router.get(
   '/auth/google/redirect',
   passport.authenticate('google'),
-  user.Oauth,
+  Social.Oauth,
 );
 
 router.get(
@@ -70,7 +74,7 @@ router.get(
 router.get(
   '/auth/facebook/redirect',
   passport.authenticate('facebook'),
-  user.Oauth,
+  Social.Oauth,
 );
 
 // https://stackoverflow.com/questions/3521290/logout-get-or-post

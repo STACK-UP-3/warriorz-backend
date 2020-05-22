@@ -34,10 +34,10 @@ export function up(queryInterface, Sequelize) {
       defaultValue: false,
     },
     googleId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
     },
     facebookId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
     },
     token: {
       type: Sequelize.TEXT,
