@@ -3,7 +3,8 @@ import express from 'express';
 import morgan from 'morgan';
 import passport from 'passport'
 import cookieSession from 'cookie-session';
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
+import cors from 'cors';
 import swaggerRouter from './swagger/index';
 import router from './routes/index';
 import { io } from './helpers/socketConnection';
@@ -26,8 +27,7 @@ app.use(passport.session())
 
 app.use('/api-docs', swaggerRouter);
 app.use(morgan('dev'));
-
-// app.use(cors());
+app.use(cors());
 
 // Handle HTTP POST requests with 'req.body' in Express framework
 // ~https://stackoverflow.com/a/43626891/2661028
