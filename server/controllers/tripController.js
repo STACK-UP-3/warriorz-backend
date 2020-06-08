@@ -140,8 +140,14 @@ static async viewAllTrips(req,res){
 }
 
 static async viewSpecificTrip(req,res){
-
-    const data = req.specificTripData;
+  
+    const data = {
+      name:req.userData.fullName,
+      email:req.userData.email,
+      manager: req.manager,
+      result:req.specificTripData,
+      };
+    
     const message = 'Here is the trip information that you requested: ';
     
     util.setSuccess(200, message, data);
