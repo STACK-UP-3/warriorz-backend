@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return */
 import tripService from '../../services/tripServices';
 import reqService from '../../services/tripReqService';
+import userService from '../../services/userService';
 import Util from '../../helpers/util';
 import { debugLogger }from '../../helpers/loggerHandle';
 
@@ -36,7 +37,7 @@ export const tripVerification = async(req, res, next) =>{
 }
 
 export const specificVerification = async(req, res, next) =>{
-  const tripRequested = await reqService.findOneEntry({trip_id: req.params.trip_id});
+  const tripRequested = await reqService.findOneEntry({id: req.params.trip_id}); 
   if(!tripRequested){
     const Error = 'This trip is not found in the database.';
       debugLogger(req, 404, Error);
@@ -64,7 +65,12 @@ export const specificVerification = async(req, res, next) =>{
       util.setError(401, Error);
       return util.send(res);
   }
-
+  
+  const manager = await userService.findByProp({
+    id: tripRequested.dataValues.line_manager_id,
+  });
+  
+  req.manager = `${manager[0].dataValues.firstname} ${manager[0].dataValues.lastname}`;
   req.specificTripData = tripRequested;
   next();
   

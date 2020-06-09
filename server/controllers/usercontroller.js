@@ -35,7 +35,7 @@ class User {
       },
       process.env.JWT_KEY,
       {
-        expiresIn: '4h',
+        expiresIn: '7d', // should expire in a week
       },
     );
     const subject = 'Verification Email';
@@ -110,7 +110,7 @@ class User {
     };
 
     const accessToken = jwt.sign(userInfo, process.env.JWT_KEY, {
-      expiresIn: '4h',
+      expiresIn: '7d', // should expire in a week
     });
 
     await userService.updateAtt({ token: accessToken }, { id: userInfo.id });
