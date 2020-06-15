@@ -1,3 +1,5 @@
+
+
 import express from 'express';
 import accomController from '../../../controllers/accomodationController';
 import accommodationValidation from '../../../middlewares/validators/accommodation';
@@ -27,7 +29,7 @@ router.get(
 router.get(
   '/:id',
   authorizationCheck,
-  allow('Travel Administrator', 'Supplier'),
+  allow('Travel Administrator', 'Supplier','Requester'), 
   accommodationValidation.validateIdFromParams,
   accommodationValidation.checkAccommodationExist,
   accomController.getSpecificAccomDetails,

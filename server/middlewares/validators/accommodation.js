@@ -21,10 +21,7 @@ dotenv.config();
 export default class accommodationValidation {
   static async checkAccommodationExist(req, res, next) {
     const { id } = req.params;
-    const accommodation = await accommodationService.findByProp({
-      id,
-      user_id: req.userData.id,
-    });
+    const accommodation = await accommodationService.findByProp({ id });
     if (!accommodation[0]) {
       const messege = `Accommodation ${id} not found for this user`;
       util.setError(404, messege);

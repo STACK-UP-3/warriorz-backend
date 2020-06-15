@@ -167,21 +167,8 @@ class User {
     const photoUrl = photoExist[0] ? photoExist[0].dataValues.url : '';
     const userData = await userService.findByProp(req.body, { id: userId });
 
-    const profile = {
-      firstname: userData[0].dataValues.firstname,
-      lastname: userData[0].dataValues.lastname,
-      country: userData[0].dataValues.country,
-      gender: userData[0].dataValues.gender,
-      birthdate: userData[0].dataValues.birthdate,
-      preferredLanguage: userData[0].dataValues.preferredLanguage,
-      preferredCurrency: userData[0].dataValues.preferredCurrency,
-      bio: userData[0].dataValues.bio,
-      city: userData[0].dataValues.city,
-      department: userData[0].dataValues.department,
-      appNotification: userData[0].dataValues.appNotification,
-      emailNotification: userData[0].dataValues.emailNotification,
-      photoUrl,
-    };
+    const profile = {...userData[0].dataValues,photoUrl }
+
     const message = 'User profile found';
     infoLogger(req, 200, message);
     util.setSuccess(200, message, profile);

@@ -48,11 +48,6 @@ router.post(
   user.signIn,
 );
 router.get(
-  '/verify/:token',
-  validate.verificationValidation,
-  user.accountVerification,
-);
-router.get(
   '/tokenAuth/:token',
   validate.VerifyToken,
   user.signIn,

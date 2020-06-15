@@ -1,11 +1,10 @@
-# Ignore Node project files/directories
 node_modules
-coverage
-logs
 package-lock.json
+coverage
 .nyc_output
 .env
 .coveralls.yml
+logs
 
 # Ignore Prettier config file
 .prettierrc

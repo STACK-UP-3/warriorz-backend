@@ -3,6 +3,7 @@ import '@babel/polyfill';
 import jwt from 'jsonwebtoken';
 import userService from '../services/userService';
 import Util from '../helpers/util';
+import photoService from '../services/photoService';
 
 const util = new Util();
 
@@ -51,14 +52,20 @@ export default class social {
         lastname: req.user.name.givenName,
         email: req.user.emails[0].value,
         isVerified: req.user.emails[0].verified,
-        image: req.user.photos[0].value,
         googleId: google,
         facebookId: facebook,
       };
+
       const inserter = await userService.createuser(newUser);
       userGot = inserter.dataValues;
       Action = 'SignUp';
       status = 201;
+      const newPhoto = {
+        ownerId: userGot.id,
+        type: 'user',
+        url: req.user.photos[0].value,
+      };
+      await photoService.createphoto(newPhoto);
     }
 
     const token = jwt.sign(
