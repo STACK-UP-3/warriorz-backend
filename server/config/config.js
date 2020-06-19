@@ -1,7 +1,3 @@
-
-
-
-
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -42,5 +38,13 @@ module.exports = {
     port: DB_PORT,
     use_env_variable: 'DATABASE_URL',
     url: DATABASE_URL,
+
+    // // Use a different storage. Default: none
+    // seederStorage: "json",
+    // // Use a different file name. Default: sequelize-data.json
+    // seederStoragePath: "sequelizeData.json",
+
+    // Use a different table name. Default: SequelizeData
+    seederStorageTableName: 'sequelize_data',
   },
 };
