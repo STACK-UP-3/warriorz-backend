@@ -135,7 +135,7 @@ class Validator {
 
     return next();
   }
-  
+
   static async VerifyToken(req,res,next){
     const { token } = req.params;
     const getInfo = jwt.verify(token, process.env.JWT_KEY);
