@@ -1,7 +1,6 @@
-import models from '../models';
+import models from "../models";
 
-const { triprequests } = models;
-
+const { triprequests, users, trips } = models;
 
 /**
  * @exports
@@ -24,15 +23,40 @@ class TripsRequestService {
   static findByProp(prop) {
     return triprequests.findAll({
       where: prop,
-      include: ['tripRequest'],
+      include: ["tripRequest"],
     });
   }
 
   static findOneEntry(prop) {
     return triprequests.findOne({
       where: prop,
-      include: ['tripRequest'],
+      include: ["tripRequest"],
     });
+  }
+
+  static findApproval() {
+    return triprequests.findAll({
+      attributes: [
+        'id',
+        'status',
+        'user_id',
+      ],
+      where: { status: "pending" },
+      include: [
+        {
+          as: "user",
+          model: users,
+          attributes: ["firstname", "lastname", "email"],
+
+        },
+        {
+         as:"tripRequest",
+         model:trips,
+         attributes: ["origin", "destination", "dateOfTravel","travelReason","dateOfTravel","createdAt"],
+        },
+      ],
+     },
+    );
   }
 }
 

@@ -25,6 +25,13 @@ export default (sequelize, DataTypes) => {
       sourceKey: 'trip_id', 
       onDelete: 'CASCADE',
     });
+    Triprequest.belongsTo(models.users, { 
+      foreignKey: 'user_id',
+      as:'user',
+      targetKey: 'id',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE' ,
+    });
 
     Triprequest.hasMany(models.notifications, { 
       foreignKey: 'trip_request_id',
