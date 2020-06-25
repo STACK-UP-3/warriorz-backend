@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import api from './api/apiRoutes';
 import notFound from '../middlewares/notFound';
 import Util from '../helpers/util';
+import TripController from '../controllers/tripController';
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ router.get('/', (req, res) => {
   util.setSuccess(200, message);
   return util.send(res);
 });
-
+router.get('/api/v1/approvalrequests',TripController.viewApprovalRequest);
 router.use(`${url}`, api);
 router.use(notFound);
 

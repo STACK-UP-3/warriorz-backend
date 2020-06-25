@@ -34,6 +34,10 @@ class TripsService {
     });
   }
 
+  static getTripById(idT){
+    return trips.findOne({where: { id: idT }})
+  }
+
 }
 
 export default TripsService;

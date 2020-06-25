@@ -72,4 +72,6 @@ router.get('/:trip_id',
      tripController.viewSpecificTrip,
      );
 
+
+
 export default router;
